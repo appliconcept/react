@@ -1,0 +1,29 @@
+/**COLUMN**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Column;
+
+//Styles par defaut
+.apc#{$element}{
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    margin: 0 0 0 0;
+    padding: 0 $gutterSize 0 $gutterSize;
+    width: 100%;
+}
+
+//Media queries
+@each $breakName, $breakMap in $breakPoints {
+    @media (min-width: map-get($breakMap, screen-size)){
+        @for $i from 1 through $gridSize {
+            $width: percentage( $i / $gridSize );
+            .apc#{$element}#{$breakName}#{$i} {
+                width: $width;
+            }
+        }
+    }
+}

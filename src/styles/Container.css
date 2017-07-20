@@ -1,0 +1,33 @@
+/**CONTAINER**/
+.apcContainer, apcContainerFluid {
+  box-sizing: border-box;
+  display: block;
+  margin: auto auto auto auto;
+  padding: 0 0 0 0; }
+  .apcContainer:after, apcContainerFluid:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.apcContainerFluid {
+  width: 100%; }
+
+@media (min-width: 0px) {
+  .apcContainer {
+    width: 100%; } }
+
+@media (min-width: 576px) {
+  .apcContainer {
+    width: 540px; } }
+
+@media (min-width: 768px) {
+  .apcContainer {
+    width: 750px; } }
+
+@media (min-width: 992px) {
+  .apcContainer {
+    width: 970px; } }
+
+@media (min-width: 1200px) {
+  .apcContainer {
+    width: 1170px; } }

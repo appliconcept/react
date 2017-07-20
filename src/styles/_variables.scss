@@ -1,0 +1,111 @@
+//Colors
+$colors: (
+    Primary: #00796b,
+    PrimaryLight: #48a999,
+    PrimaryDark: #004c40,
+    Secondary: #c51162,
+    SecondaryLight: #fd558f,
+    SecondaryDark: #8e0038,
+    Danger: #d50000,
+    Success: #2e7d32,
+    Info: #00838f,
+    Warning: #f9a825,
+    Default: #cccccc,
+    TextColor: #000000,
+    White: #ffffff
+);
+
+//Sizes
+$sizes: (
+    Xsmall: (
+        font-size: 12px,
+        height: 22px,
+        padding-top: 1px,
+        padding-bottom: 1px,
+        padding-left: 5px,
+        padding-right: 5px
+    ),
+    Small: (
+        font-size: 12px,
+        height: 30px,
+        padding-top: 5px,
+        padding-bottom: 5px,
+        padding-left: 10px,
+        padding-right: 10px
+    ), 
+    Medium: (
+        font-size: 14px,
+        height: 34px,
+        padding-top: 6px,
+        padding-bottom: 6px,
+        padding-left: 12px,
+        padding-right: 12px       
+    ), 
+    Large: (
+        font-size: 18px,
+        height: 46px,
+        padding-top: 10px,
+        padding-bottom: 10px,
+        padding-left: 16px,
+        padding-right: 16px
+    ), 
+    Xlarge: (
+        font-size: 22px,
+        height: 56px,
+        padding-top: 12px,
+        padding-bottom: 12px,
+        padding-left: 18px,
+        padding-right: 18px
+    )
+);
+
+//Grids variables
+    //breakPoints
+    $breakPoints: (
+        Xsmall: (
+            screen-size: 0px,
+            container-size: 100%
+        ),
+        Small: (
+            screen-size: 576px,
+            container-size: 540px
+        ),
+        Medium: (
+            screen-size: 768px,
+            container-size: 750px
+        ),
+        Large: (
+            screen-size: 992px,
+            container-size: 970px
+        ),
+        Xlarge: (
+            screen-size: 1200px,
+            container-size: 1170px
+        )
+    );
+
+    //Gutters (espaces entre horizontals entre les grilles)
+    $gutterSize: 10px;
+    
+    //Nombre de colonne sur une ligne
+    $gridSize: 12;
+
+//Arrondi des elements
+    //default
+    $borderRadius: 3px;
+
+    //maximum
+    $borderRadiusMax: 20px;
+
+//Disabled elements
+    //opacity
+    $disabledOpacity: 0.85;
+
+//Texts opacity (moins = plus opaque)
+$primaryTextOpacity: 20%;
+$secondaryTextOpacity: 45%;
+$disabledTextOpacity: 65%;
+
+//Form
+    //Input
+    $inputBorderWidth: 1px;

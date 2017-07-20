@@ -1,0 +1,226 @@
+/**CHECKBOX**/
+.apcCheckboxContainer {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0; }
+
+.apcCheckbox {
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  position: relative;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  transition-duration: 0.3s;
+  transition-property: all; }
+
+.apcCheckboxDot {
+  box-sizing: border-box;
+  display: inline-block;
+  text-align: center;
+  width: 100%; }
+
+.apcCheckboxLabel {
+  box-sizing: border-box;
+  color: #333333;
+  display: block;
+  float: left;
+  position: relative; }
+
+.apcCheckboxContainerBlock {
+  display: block;
+  width: 100%; }
+
+.apcCheckboxContainerDisabled {
+  cursor: not-allowed;
+  opacity: 0.85; }
+
+.apcCheckboxDisabled {
+  cursor: not-allowed;
+  opacity: 0.85; }
+
+.apcCheckboxLabelDisabled {
+  cursor: not-allowed;
+  opacity: 0.85; }
+
+.apcCheckboxContainerXsmall {
+  height: 22px; }
+
+.apcCheckboxXsmall {
+  border-radius: 3px;
+  height: 22px;
+  width: 22px; }
+
+.apcCheckboxDotXsmall {
+  height: 22px;
+  font-size: 12px;
+  padding: 5px; }
+
+.apcCheckboxLabelXsmall {
+  height: 22px;
+  font-size: 12px;
+  padding: 5px; }
+
+.apcCheckboxContainerSmall {
+  height: 30px; }
+
+.apcCheckboxSmall {
+  border-radius: 3px;
+  height: 30px;
+  width: 30px; }
+
+.apcCheckboxDotSmall {
+  height: 30px;
+  font-size: 12px;
+  padding: 9px; }
+
+.apcCheckboxLabelSmall {
+  height: 30px;
+  font-size: 12px;
+  padding: 9px; }
+
+.apcCheckboxContainerMedium {
+  height: 34px; }
+
+.apcCheckboxMedium {
+  border-radius: 3px;
+  height: 34px;
+  width: 34px; }
+
+.apcCheckboxDotMedium {
+  height: 34px;
+  font-size: 14px;
+  padding: 10px; }
+
+.apcCheckboxLabelMedium {
+  height: 34px;
+  font-size: 14px;
+  padding: 10px; }
+
+.apcCheckboxContainerLarge {
+  height: 46px; }
+
+.apcCheckboxLarge {
+  border-radius: 3px;
+  height: 46px;
+  width: 46px; }
+
+.apcCheckboxDotLarge {
+  height: 46px;
+  font-size: 18px;
+  padding: 14px; }
+
+.apcCheckboxLabelLarge {
+  height: 46px;
+  font-size: 18px;
+  padding: 14px; }
+
+.apcCheckboxContainerXlarge {
+  height: 56px; }
+
+.apcCheckboxXlarge {
+  border-radius: 3px;
+  height: 56px;
+  width: 56px; }
+
+.apcCheckboxDotXlarge {
+  height: 56px;
+  font-size: 22px;
+  padding: 17px; }
+
+.apcCheckboxLabelXlarge {
+  height: 56px;
+  font-size: 22px;
+  padding: 17px; }
+
+.apcCheckboxPrimary {
+  border-color: #00796b;
+  background-color: #00796b; }
+
+.apcCheckboxDotPrimary {
+  color: #ffffff; }
+
+.apcCheckboxPrimaryLight {
+  border-color: #48a999;
+  background-color: #48a999; }
+
+.apcCheckboxDotPrimaryLight {
+  color: #ffffff; }
+
+.apcCheckboxPrimaryDark {
+  border-color: #004c40;
+  background-color: #004c40; }
+
+.apcCheckboxDotPrimaryDark {
+  color: #ffffff; }
+
+.apcCheckboxSecondary {
+  border-color: #c51162;
+  background-color: #c51162; }
+
+.apcCheckboxDotSecondary {
+  color: #ffffff; }
+
+.apcCheckboxSecondaryLight {
+  border-color: #fd558f;
+  background-color: #fd558f; }
+
+.apcCheckboxDotSecondaryLight {
+  color: #ffffff; }
+
+.apcCheckboxSecondaryDark {
+  border-color: #8e0038;
+  background-color: #8e0038; }
+
+.apcCheckboxDotSecondaryDark {
+  color: #ffffff; }
+
+.apcCheckboxDanger {
+  border-color: #d50000;
+  background-color: #d50000; }
+
+.apcCheckboxDotDanger {
+  color: #ffffff; }
+
+.apcCheckboxSuccess {
+  border-color: #2e7d32;
+  background-color: #2e7d32; }
+
+.apcCheckboxDotSuccess {
+  color: #ffffff; }
+
+.apcCheckboxInfo {
+  border-color: #00838f;
+  background-color: #00838f; }
+
+.apcCheckboxDotInfo {
+  color: #ffffff; }
+
+.apcCheckboxWarning {
+  border-color: #f9a825;
+  background-color: #f9a825; }
+
+.apcCheckboxDotWarning {
+  color: #ffffff; }
+
+.apcCheckboxDefault {
+  border-color: #999999; }
+
+.apcCheckboxTextColor {
+  border-color: #000000;
+  background-color: #000000; }
+
+.apcCheckboxDotTextColor {
+  color: #ffffff; }
+
+.apcCheckboxWhite {
+  border-color: #ffffff;
+  background-color: #ffffff; }
+
+.apcCheckboxDotWhite {
+  color: #000000; }

@@ -1,0 +1,179 @@
+/**RADIOGROUP**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: RadioGroup;
+
+//Styles par defaut
+    //element
+    .apc#{$element}{
+        box-sizing: border-box;
+        border-style: solid;
+        border-width: $inputBorderWidth;
+        display: block;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+        position: relative;
+    }
+    //Icon
+    .apc#{$element}Icon{
+        box-sizing: border-box;
+        display: block;
+        left: 0px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+        position: absolute;
+        text-align: center;        
+        top: 0px;
+        z-index: -1;
+    }
+    //Label
+    .apc#{$element}Label{
+        box-sizing: border-box;
+        display: block;
+        font-weight: bold;
+        left: 0px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+        position: absolute;
+        top: 0px;
+        z-index: -2;
+    }
+
+//Block
+    //element
+    .apc#{$element}Block{
+        display: block;
+        width: 100%;
+    }
+
+//Disabled
+    //element
+    .apc#{$element}Disabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+//Rounded
+    //element
+    .apc#{$element}Rounded{
+        border-radius: $borderRadius;
+    }
+
+//RoundedMax
+    //element
+    .apc#{$element}RoundedMax{
+        border-radius: $borderRadiusMax;
+    }
+
+//Sizes and Positions
+@each $sizeName, $sizeMap in $sizes {
+
+    //element
+    .apc#{$element}#{$sizeName}{
+        min-height: map-get($sizeMap, height);
+        padding-top: map-get($sizeMap, height);
+    }
+
+    //icon
+    .apc#{$element}Icon#{$sizeName}{
+        font-size: map-get($sizeMap, font-size);
+        height: map-get($sizeMap, height);
+        width: map-get($sizeMap, height);
+        padding-top: map-get($sizeMap, padding-top) + 2.5;
+        padding-bottom: map-get($sizeMap, padding-bottom) + 2.5;
+    };
+
+    //label
+    .apc#{$element}Label#{$sizeName}{
+        font-size: map-get($sizeMap, font-size) - apcPaddingTopPlusInputLabel(map-get($sizeMap, font-size));
+        height: map-get($sizeMap, height);
+        padding-top: map-get($sizeMap, padding-top) + 2.6;
+        padding-bottom: map-get($sizeMap, padding-bottom);
+        padding-left: map-get($sizeMap, padding-left);
+        padding-right: map-get($sizeMap, padding-right);
+    };
+    .apc#{$element}Label#{$sizeName}Position0{
+        display: none;
+    };
+    .apc#{$element}Label#{$sizeName}Position1{
+        display: none;
+    };
+    .apc#{$element}Label#{$sizeName}Position3{
+        padding-left: map-get($sizeMap, height);
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+    
+    //element
+    .apc#{$element}#{$colorName}{
+        background-color: map-get($colors,White);
+        border-color: $color;
+    }
+    //icon
+    .apc#{$element}Icon#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+             color: $color;
+        }
+    }
+    //Label
+    .apc#{$element}Label#{$colorName}{
+        @if($colorName == Default){
+            background-color: map-get($colors,White);
+            color: apcTextColor(map-get($colors,White));
+        } @else{
+            background-color: map-get($colors,White);
+            color: $color;
+        }
+    }
+}
+@each $colorName, $color in $colors{
+    
+    //Icon couleur forcee
+    .apc#{$element}IconForced#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+            color: $color;
+        }
+    }
+
+    //Label couleur forcee
+    .apc#{$element}LabelForced#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+            color: $color;
+        }
+    }
+}
+
+//Errors
+
+    .apc#{$element}Error{
+        border-color: map-get($colors, Danger);
+    }
+
+    .apc#{$element}IconError{
+        color: map-get($colors, Danger);
+    }
+
+    .apc#{$element}LabelError{
+        color: map-get($colors, Danger);
+    }
+
+    .apc#{$element}ErrorBox{
+        color: map-get($colors, Danger);
+        display: block;
+        font-size: 13px;
+        margin: 2px 0 0 0;
+        position: absolute;
+        right: 0px;
+        top: 100%;
+    }

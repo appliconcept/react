@@ -1,0 +1,33 @@
+/**CONTAINER**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Container;
+
+//Styles par defaut
+.apc#{$element}, apc#{$element}Fluid{
+    box-sizing: border-box;
+    display: block;
+    margin: auto auto auto auto;
+    padding: 0 0 0 0;
+    &:after{
+        content: "";
+        display: table;
+        clear: both; 
+    }
+}
+.apc#{$element}Fluid{
+    width: 100%;
+}
+
+//Media queries
+@each $breakName, $breakMap in $breakPoints {
+    @media (min-width: map-get($breakMap, screen-size)){
+        .apc#{$element}{
+            width: map-get($breakMap, container-size);
+            //background-color: map-get($breakMap, color-test);
+        }
+    }
+}

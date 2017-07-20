@@ -1,0 +1,142 @@
+/**RADIO**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Radio;
+
+//Styles par defaut
+    //container
+    .apc#{$element}Container{
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        margin: 0 0 0 0 ;
+        padding: 0 0 0 0;
+    }
+    
+    //element
+    $dotPadding: 4px;
+    .apc#{$element}{
+        border-style: solid;
+        border-width: 1px;
+        box-sizing: border-box;
+        display: block;
+        float: left;
+        margin: 0 0 0 0 ;
+        padding: $dotPadding - 1;
+        position: relative;
+    }
+
+    //dot
+    .apc#{$element}Dot{
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0 0 0 0 ;
+        padding: 0 0 0 0;
+        position: relative;
+    }
+
+    //label
+    .apc#{$element}Label{
+        box-sizing: border-box;
+        color: lighten(map-get($colors, TextColor ) , $primaryTextOpacity);
+        display: block;
+        float: left;
+        position: relative;
+    }
+
+//Block
+    //container
+    .apc#{$element}ContainerBlock{
+        display: block;
+        width: 100%;
+    }
+
+//Disabled
+    //container
+    .apc#{$element}ContainerDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+    
+    //element
+    .apc#{$element}Disabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+    //dot
+    .apc#{$element}DotDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+    //label
+    .apc#{$element}LabelDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+//Sizes
+@each $sizeName, $sizeMap in $sizes {
+
+    //container
+    .apc#{$element}Container#{$sizeName}{
+        background: #ff0000;
+        height: map-get($sizeMap, height) !important;
+    };
+
+    //element
+    .apc#{$element}#{$sizeName}{
+        height: map-get($sizeMap, height) / 2;
+        width: map-get($sizeMap, height) / 2;
+        border-radius: map-get($sizeMap, height) / 2;
+    };
+
+    //dot
+    .apc#{$element}Dot#{$sizeName}{
+        height: map-get($sizeMap, height) - ($dotPadding * 2);
+        width: map-get($sizeMap, height) - ($dotPadding * 2);
+        border-radius: (map-get($sizeMap, height) - ($dotPadding * 2)) / 2;
+    };
+
+    //label
+    .apc#{$element}Label#{$sizeName}{
+        height: map-get($sizeMap, height);
+        font-size: map-get($sizeMap, font-size);
+        padding-top: map-get($sizeMap, padding-top) + 2.6;
+        padding-bottom: map-get($sizeMap, padding-bottom);
+        padding-left: map-get($sizeMap, padding-left);
+        padding-right: map-get($sizeMap, padding-right);
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+
+    @if( $colorName == Default ){
+        //element
+        .apc#{$element}#{$colorName}{
+            border-color: darken($color, 20%);
+        };
+
+        //dot
+        .apc#{$element}Dot#{$colorName}{
+            background-color: transparent;
+        }; 
+    } @else{
+        //element
+        .apc#{$element}#{$colorName}{
+            border-color: $color;
+        };
+
+        //dot
+        .apc#{$element}Dot#{$colorName}{
+            background-color: $color;
+        };  
+    }
+}
+

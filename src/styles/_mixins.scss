@@ -1,0 +1,17 @@
+//Determiner la couleur de texte pour les elements avec background
+@function apcTextColor($color) {
+    @if (lightness($color) > 70) {
+        @return #000000;
+    } @else {
+        @return #ffffff;
+    }
+}
+
+//Determiner le padding-top supplementaire pour les labels des elements Input
+@function apcPaddingTopPlusInputLabel($font-size){
+    @if($font-size <= 13px){
+        @return 0;
+    } @else {
+        @return 2;
+    }
+}

@@ -1,0 +1,278 @@
+/**INPUT**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Input;
+
+//Styles par defaut
+    //container
+    .apc#{$element}Container{
+        border-style: solid;
+        border-width: $inputBorderWidth;
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0 0 0 0;
+        max-width: 100%;
+        padding: 0 0 0 0;
+        position: relative;
+    }
+    //element
+    .apc#{$element}{
+        background-color: transparent;
+        border: none;
+        box-sizing: border-box;
+        cursor: text;
+        display: inline-block;
+        margin: 0 0 0 0;
+        max-width: 100%;
+        outline: none;
+        width: 100%;
+    }
+    //icon
+    .apc#{$element}Icon{
+        box-sizing: border-box;
+        display: block;       
+        left: 0px;
+        position: absolute;
+        text-align: center;
+        top: 0px;
+        z-index: -1;   
+    }
+    //label
+    .apc#{$element}Label{
+        border: none;
+        box-sizing: border-box;
+        display: block;
+        font-weight: bold;
+        margin: 0 0 0 0;
+        position: absolute;
+        top: 0px;
+        z-index: -2;  
+    }
+    //clear
+
+//Block
+    //container
+    .apc#{$element}ContainerBlock{
+        display: block;
+        width: 100%;
+    }
+    //element
+    .apc#{$element}Block{
+        display: block;
+        width: 100%;
+    }
+
+//Disabled
+    //container
+    .apc#{$element}ContainerDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+    //element
+    .apc#{$element}Disabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+    //icon
+    .apc#{$element}IconDisabled{
+        opacity: $disabledOpacity;
+    }
+    //label
+    .apc#{$element}LabelDisabled{
+        opacity: $disabledOpacity;
+    }
+    //label
+    .apc#{$element}ClearDisabled{
+        opacity: $disabledOpacity;
+    }
+
+//Rounded
+    //container
+    .apc#{$element}ContainerRounded{
+        border-radius: $borderRadius;
+    }
+    //element
+    .apc#{$element}Rounded{
+        border-radius: $borderRadius;
+    }
+    //label
+    .apc#{$element}LabelRounded{
+        border-bottom-left-radius: $borderRadius;
+        border-top-left-radius: $borderRadius;
+    }
+
+//RoundedMax
+    //container
+    .apc#{$element}ContainerRoundedMax{
+        border-radius: $borderRadiusMax;
+    }
+    //element
+    .apc#{$element}RoundedMax{
+        border-radius: $borderRadiusMax;
+    }
+    //label
+    .apc#{$element}LabelRoundedMax{
+        border-bottom-left-radius: $borderRadiusMax;
+        border-top-left-radius: $borderRadiusMax;
+    }
+
+//Sizes and Positions
+@each $sizeName, $sizeMap in $sizes {
+
+    //container
+    .apc#{$element}Container#{$sizeName}{
+        height: map-get($sizeMap, height);
+    };
+
+    //element
+    .apc#{$element}#{$sizeName}{
+        font-size: map-get($sizeMap, font-size);
+        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
+        padding-top: map-get($sizeMap, padding-top);
+        padding-bottom: map-get($sizeMap, padding-bottom);
+        padding-left: map-get($sizeMap, padding-left);
+        padding-right: map-get($sizeMap, padding-right);
+    };
+    .apc#{$element}#{$sizeName}Position1{
+        padding-left: map-get($sizeMap, height);
+    };
+    .apc#{$element}#{$sizeName}Position2{
+        padding-left: map-get($sizeMap, height) * 3 + map-get($sizeMap, padding-left);
+    };    
+    .apc#{$element}#{$sizeName}Position3{
+        padding-left: map-get($sizeMap, height) * 4 + map-get($sizeMap, padding-left);
+    };
+    
+    //icon
+    .apc#{$element}Icon#{$sizeName}{
+        font-size: map-get($sizeMap, font-size);
+        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
+        width: map-get($sizeMap, height);
+        padding-top: map-get($sizeMap, padding-top) + 2.5;
+        padding-bottom: map-get($sizeMap, padding-bottom) + 2.5;
+    };
+    .apc#{$element}Icon#{$sizeName}Position0{
+        display: none;
+    };
+    .apc#{$element}Icon#{$sizeName}Position2{
+        display: none;
+    };  
+
+    //label
+    .apc#{$element}Label#{$sizeName}{
+        font-size: map-get($sizeMap, font-size) - apcPaddingTopPlusInputLabel(map-get($sizeMap, font-size));
+        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
+        padding-top: map-get($sizeMap, padding-top) + 2.6;
+        padding-bottom: map-get($sizeMap, padding-bottom);
+        padding-left: map-get($sizeMap, padding-left);
+        padding-right: map-get($sizeMap, padding-right);
+    }
+    .apc#{$element}Label#{$sizeName}Position0{
+        display: none;
+    };
+    .apc#{$element}Label#{$sizeName}Position1{
+        display: none;
+    };
+    .apc#{$element}Label#{$sizeName}Position2{
+        width: map-get($sizeMap, height) * 3;
+    };    
+    .apc#{$element}Label#{$sizeName}Position3{
+        padding-left: map-get($sizeMap, height);
+        width: map-get($sizeMap, height) * 4;
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+    
+    //container
+    .apc#{$element}Container#{$colorName}{
+        background-color: map-get($colors,White);
+        border-color: $color;
+    }
+
+    //element
+    .apc#{$element}#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+            color: $color;
+        }
+    }
+
+    //icon
+    .apc#{$element}Icon#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+             color: $color;
+        }
+    }
+
+    //Label
+    .apc#{$element}Label#{$colorName}{
+        @if($colorName == Default){
+            background-color: map-get($colors,White);
+            color: apcTextColor(map-get($colors,White));
+        } @else{
+            background-color: map-get($colors,White);
+            color: $color;
+        }
+        border-right-color: lighten(map-get($colors,Default),8%);
+        border-right-style: solid;
+        border-right-width: 1px;
+    }
+}
+@each $colorName, $color in $colors{
+    
+    //Icon couleur forcee
+    .apc#{$element}IconForced#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+            color: $color;
+        }
+    }
+
+    //Label couleur forcee
+    .apc#{$element}LabelForced#{$colorName}{
+        @if($colorName == Default){
+            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+        } @else{
+            color: $color;
+        }
+    }
+}
+
+//Errors
+    //container
+    .apc#{$element}ContainerError{
+        border-color: map-get($colors, Danger);
+        border-style: solid;
+        border-width: 1px;
+    }
+    //icon
+    .apc#{$element}IconError{
+        color: map-get($colors, Danger);
+    }
+    //element
+    .apc#{$element}Error{
+        color: map-get($colors, Danger);
+    }
+    //label
+    .apc#{$element}LabelError{
+        color: map-get($colors, Danger);
+    }
+    //errorbox
+    .apc#{$element}ErrorBox{
+        color: map-get($colors, Danger);
+        display: block;
+        font-size: 13px;
+        margin: 2px 0 0 0;
+        position: absolute;
+        right: 0px;
+        top: 100%;
+    }

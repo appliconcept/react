@@ -1,0 +1,127 @@
+/**CHECKBOX**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Checkbox;
+
+//Styles par defaut
+    //container
+    .apc#{$element}Container{
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        margin: 0 0 0 0 ;
+        padding: 0 0 0 0;
+    }
+    
+    //element
+    .apc#{$element}{
+        border-style: solid;
+        border-width: 1px;
+        box-sizing: border-box;
+        display: block;
+        float: left;
+        position: relative;
+        margin: 0 0 0 0 ;
+        padding: 0 0 0 0;
+        transition-duration: 0.3s;
+        transition-property: all;
+    }
+
+    //dot
+    .apc#{$element}Dot{
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    };
+
+    //label
+    .apc#{$element}Label{
+        box-sizing: border-box;
+        color: lighten(map-get($colors, TextColor ) , $primaryTextOpacity);
+        display: block;
+        float: left;
+        position: relative;
+    }
+
+//Block
+    //container
+    .apc#{$element}ContainerBlock{
+        display: block;
+        width: 100%;
+    }
+
+//Disabled
+    //container
+    .apc#{$element}ContainerDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+    
+    //element
+    .apc#{$element}Disabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+    //label
+    .apc#{$element}LabelDisabled{
+        cursor: not-allowed;
+        opacity: $disabledOpacity;
+    }
+
+//Sizes
+@each $sizeName, $sizeMap in $sizes {
+
+    //container
+    .apc#{$element}Container#{$sizeName}{
+        height: map-get($sizeMap, height);
+    };
+
+    //element
+    .apc#{$element}#{$sizeName}{
+        border-radius: $borderRadius;
+        height: map-get($sizeMap, height);
+        width: map-get($sizeMap, height);
+    };
+
+    //element
+    .apc#{$element}Dot#{$sizeName}{
+        height: map-get($sizeMap, height);
+        font-size: map-get($sizeMap, font-size);
+        padding: ( map-get($sizeMap, height) - map-get($sizeMap, font-size) ) / 2 ;
+    };
+
+    //label
+    .apc#{$element}Label#{$sizeName}{
+        height: map-get($sizeMap, height);
+        font-size: map-get($sizeMap, font-size);
+        padding: ( map-get($sizeMap, height) - map-get($sizeMap, font-size) ) / 2 ;
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+
+    @if( $colorName == Default ){
+        //element
+        .apc#{$element}#{$colorName}{
+            border-color: darken($color, 20%);
+        };
+    } @else{
+        //element
+        .apc#{$element}#{$colorName}{
+            border-color: $color;
+            background-color: $color;
+        };
+        
+        //dot
+        .apc#{$element}Dot#{$colorName}{
+            color: apcTextColor($color);
+        };
+    }
+}

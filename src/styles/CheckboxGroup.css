@@ -1,0 +1,21 @@
+/**CHECKBOXGROUP**/
+.apcCheckboxGroup {
+  display: block;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  position: relative; }
+
+.apcCheckboxGroupError {
+  border-color: #d50000;
+  border-style: solid;
+  border-width: 1px;
+  padding: 2px 2px 2px 2px; }
+
+.apcCheckboxGroupErrorError {
+  color: #d50000;
+  display: block;
+  font-size: 13px;
+  margin: 2px 0 0 0;
+  position: absolute;
+  right: 0px;
+  top: 100%; }
