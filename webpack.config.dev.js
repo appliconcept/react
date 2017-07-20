@@ -1,17 +1,14 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/dev.js',
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, 'dist'),
-        library: "appliconcept-react",
-        libraryTarget: 'umd',
-        umdNamedDefine: true
+        path: path.resolve(__dirname, 'dev')
     },
     devServer: {
-        contentBase: path.join(__dirname, "dist"),
+        contentBase: path.join(__dirname, "dev"),
         compress: true,
         port: 9000
     },
@@ -29,10 +26,8 @@ module.exports = {
             }
         ]
     },
-    externals: {
-        "react": "React"
-    },
-    plugins: [
-        new UglifyJsPlugin()
-    ]
+    plugins: [new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: 'src/dev.html'
+    })]
 };

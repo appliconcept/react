@@ -4,7 +4,8 @@
   "description": "React Js Custom Components",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --config ./webpack.config.dev.js --content-base dist --inline --hot",
+    "build": "webpack --config ./webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,9 @@
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.29.0",
     "path": "^0.12.7",
+    "react-dom": "^15.6.1",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.9",

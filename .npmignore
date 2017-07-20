@@ -1,6 +1,8 @@
 node_modules
 src
+dev
 index.js
 webpack.config.js
+webpack.config.dev.js
 .babelrc
 .gitignore
