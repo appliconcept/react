@@ -2,9 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/dev.js',
+    entry: {
+        app: './src/dev.js',
+        scss: './src/styles/dev.scss'
+    },
     output: {
-        filename: 'index.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dev')
     },
     devServer: {
@@ -16,7 +19,7 @@ module.exports = {
         loaders: [
             { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
             { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
-            { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]},
+            { test: /\.(sc|c)ss$/, use: [ 'style-loader', 'css-loader', 'sass-loader' ]},
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: "url-loader?limit=10000&minetype=application/font-woff&name=./fonts/[hash].[ext]" },
