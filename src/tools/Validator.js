@@ -1,5 +1,5 @@
 const Validator = (type, value, props)=>{
-
+    
     //Pas d'erreur par defaut
     let error = false;
     let errorMsg = "";
@@ -24,7 +24,7 @@ const Validator = (type, value, props)=>{
             if(type === "Input"){
                 //Mail
                 if(typeInput === "mail"){
-                    let regMail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+                    let regMail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
                     if(!regMail.test(value)){
                         error = true;
                         errorMsg = "format mail incorrect";

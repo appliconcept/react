@@ -11,15 +11,15 @@ export default class RadioGroup extends Champ{
     constructor(props){
         super(props);
         this.champType = "RadioGroup";
-        this.childType = Radio;
+        this.childTypes = [Radio];
     }
 
     //Definir les classes du champ
-    getClassNames = ()=>{
+    getClassNames = (errorDisplay)=>{
         return {
-            champClass      : Utils.applyClass("apc"+this.champType, this.props, this.state, true),
-            champIconClass  : Utils.applyClass("apc"+this.champType+"Icon", this.props, this.state),
-            champLabelClass : Utils.applyClass("apc"+this.champType+"Label", this.props, this.state),
+            champClass      : Utils.applyClass("apc"+this.champType, this.props, errorDisplay, true),
+            champIconClass  : Utils.applyClass("apc"+this.champType+"Icon", this.props, errorDisplay),
+            champLabelClass : Utils.applyClass("apc"+this.champType+"Label", this.props, errorDisplay),
             champErrorClass : "apc"+this.champType+"ErrorBox"
         };
     }

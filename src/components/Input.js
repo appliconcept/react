@@ -13,19 +13,19 @@ export default class Input extends Champ{
     }
 
     //Definir les classes du composant
-    getClassNames = ()=>{
+    getClassNames = (errorDisplay)=>{
         return{
-            champContainerClass : Utils.applyClass("apc"+this.champType+"Container", this.props, this.state, true),
-            champClass          : Utils.applyClass("apc"+this.champType, this.props, this.state),
-            champClearClass     : Utils.applyClass("apc"+this.champType+"Clear", this.props, this.state),
-            champIconClass      : Utils.applyClass("apc"+this.champType+"Icon", this.props, this.state),
-            champLabelClass     : Utils.applyClass("apc"+this.champType+"Label", this.props, this.state),
+            champClass          : Utils.applyClass("apc"+this.champType, this.props, errorDisplay),
+            champContainerClass : Utils.applyClass("apc"+this.champType+"Container", this.props, errorDisplay, true),
+            champClearClass     : Utils.applyClass("apc"+this.champType+"Clear", this.props, errorDisplay),
+            champIconClass      : Utils.applyClass("apc"+this.champType+"Icon", this.props, errorDisplay),
+            champLabelClass     : Utils.applyClass("apc"+this.champType+"Label", this.props, errorDisplay),
             champErrorClass     : "apc"+this.champType+"ErrorBox"
         };
     }
 
     //Definir les styles du composant
-    getStyles = ()=>{
+    getStyles = (errorDisplay)=>{
         return {
             champContainerStyle: this.props.style ? this.props.style : {}
         };
@@ -35,30 +35,30 @@ export default class Input extends Champ{
     render(){
         return(
             <div
-                className={this.state.champContainerClass ? this.state.champContainerClass : ""}
-                style={this.state.champContainerStyle? this.state.champContainerStyle : {}}
+                className={this.state.display.champContainerClass ? this.state.display.champContainerClass : ""}
+                style={this.state.display.champContainerStyle? this.state.display.champContainerStyle : {}}
             >
                 {
                     this.props.icon &&
                     <Icon
                         name={this.props.icon}
-                        className={this.state.champIconClass ? this.state.champIconClass : ""}
-                        style={this.state.champIconStyle ? this.state.champIconStyle : {}}
+                        className={this.state.display.champIconClass ? this.state.display.champIconClass : ""}
+                        style={this.state.display.champIconStyle ? this.state.display.champIconStyle : {}}
                     />
                 }
 
                 {
                     this.props.label &&
                     <div
-                        className={this.state.champLabelClass ? this.state.champLabelClass : ""}
-                        style={this.state.champLabelStyle ? this.state.champLabelStyle : {}}
+                        className={this.state.display.champLabelClass ? this.state.display.champLabelClass : ""}
+                        style={this.state.display.champLabelStyle ? this.state.display.champLabelStyle : {}}
                     >
                         {this.props.label}
                     </div>
                 }
 
                 <input
-                    className={this.state.champClass ? this.state.champClass : ""}
+                    className={this.state.display.champClass ? this.state.display.champClass : ""}
                     disabled={(this.props.disabled | this.props.readonly) ? "disabled" : ""}
                     onBlur={this.handleBlur}
                     onClick={this.handleClick}
@@ -66,28 +66,28 @@ export default class Input extends Champ{
                     onFocus={this.handleFocus}
                     placeholder={this.props.placeholder}
                     readOnly={(this.props.disabled | this.props.readonly) ? "readonly" : ""}
-                    style={this.state.champStyle ? this.state.champStyle : {}}
+                    style={this.state.display.champStyle ? this.state.display.champStyle : {}}
                     type={(this.props.type && this.props.type === "password") ? "password" : "text"}
-                    value={this.state.value}
+                    value={this.state.display.value}
                 />
 
                 {
                     this.props.clear &&
                     <div
-                        className={this.state.champClearClass ? this.state.champClearClass : ""}
-                        style={this.state.champClearStyle ? this.champClearStyle : {}}
+                        className={this.state.display.champClearClass ? this.state.display.champClearClass : ""}
+                        style={this.state.display.champClearStyle ? this.display.champClearStyle : {}}
                     >
                         x
                     </div>
                 }
 
                 {
-                    this.state.errorDisplay &&
+                    this.state.display.errorDisplay &&
                     <div
-                        className={this.state.champErrorClass ? this.state.champErrorClass : ""}
-                        style={this.state.champErrorStyle ? this.champErrorStyle : {}}
+                        className={this.state.display.champErrorClass ? this.state.display.champErrorClass : ""}
+                        style={this.state.display.champErrorStyle ? this.display.champErrorStyle : {}}
                     >
-                        {this.state.errorMsg}
+                        {this.state.display.errorMsg}
                     </div>
                 }
             </div>

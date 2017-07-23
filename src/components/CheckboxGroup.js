@@ -10,13 +10,14 @@ export default class CheckboxGroup extends Champ{
     constructor(props){
         super(props);
         this.champType = "CheckboxGroup";
-        this.childType = Checkbox;
+        this.childTypes = [Checkbox];
+        this.isChampMultiple = true;
     }
 
     //Definir les classes du champ
-    getClassNames = ()=>{
+    getClassNames = (errorDisplay)=>{
         return {
-            champClass : Utils.applyClass("apc"+this.champType, this.props, this.state, true)
+            champClass : Utils.applyClass("apc"+this.champType, this.props, errorDisplay, true)
         };
     }
 

@@ -1,4 +1,5 @@
 import Button from "./components/Button";
+import Calendar from "./components/Calendar";
 import Checkbox from "./components/Checkbox";
 import CheckboxGroup from "./components/CheckboxGroup";
 import Column from "./components/Column.js";
@@ -13,6 +14,7 @@ import Submit from "./components/Submit";
 
 export {
     Button,
+    Calendar,
     Checkbox,
     CheckboxGroup,
     Column,

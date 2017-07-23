@@ -34,11 +34,11 @@ export default class Radio extends Component{
     }
 
     //Definir classes du Radio
-    setClassName = ()=>{
-        let champClass = Utils.applyClass("apcRadio", this.props, this.state, true);
-        let champClassDot = Utils.applyClass("apcRadioDot", this.props, this.state);
-        let champContainerClass = Utils.applyClass("apcRadioContainer", this.props, this.state);
-        let champClassLabel = Utils.applyClass("apcRadioLabel", this.props, this.state);
+    setClassName = (errorDisplay)=>{
+        let champClass = Utils.applyClass("apcRadio", this.props, errorDisplay, true);
+        let champClassDot = Utils.applyClass("apcRadioDot", this.props, errorDisplay);
+        let champContainerClass = Utils.applyClass("apcRadioContainer", this.props, errorDisplay);
+        let champClassLabel = Utils.applyClass("apcRadioLabel", this.props, errorDisplay);
 
         //Si pas checked mettre la couleur Default
         if(!this.state.checked){

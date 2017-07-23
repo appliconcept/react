@@ -83,7 +83,7 @@ const applyUserClass = function(base, props){
     return props["className"] ? " " + props["className"] : "";
 }
 
-const applyClass = function(base, props, state, useradd = false){
+const applyClass = function(base, props, errorDisplay, useradd = false){
     
     let finalClass = base;
     
@@ -106,7 +106,7 @@ const applyClass = function(base, props, state, useradd = false){
     finalClass += applyPositionClass(base, props);
     
     //Erreurs
-    if(state && state.errorDisplay){
+    if(errorDisplay){
         finalClass += " " + base + "Error";
     }
 
@@ -148,7 +148,7 @@ const applyUserStyle = function(base, props){
     return props["style"] ? props["style"] : {};
 }
 
-const applyStyle = function(base, props, styles, state, useradd = false){
+const applyStyle = function(base, props, styles, errorDisplay=false, useradd = false){
     let finalStyles = {
         ...styles[base],
         ...applySingleStyle(base, props, styles, "Block"),
@@ -159,7 +159,7 @@ const applyStyle = function(base, props, styles, state, useradd = false){
         ...applyColorsStyle(base, props, styles),
         ...applyDecaleStyle(base, props, styles)
     };
-    if(state && state.errorDisplay){
+    if(errorDisplay){
         finalStyles = {
             ...finalStyles
             //Do something for error on mobile  

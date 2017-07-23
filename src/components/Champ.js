@@ -6,49 +6,45 @@ export default class Champ extends Component{
 
     //Proprietes de classes
     champType = "Champ";
-    childType = null;
+    childTypes = [];
+    isChampMultiple = false;
 
     //State par default
     constructor(props){
         super(props);
         this.state = {
             children: [],
-            error: false,
-            errorMsg: "",
-            errorDisplay: false,
-            touched: false,
-            pristine: true,
-            value: this.props.value ? this.props.value : ""
+            display: {
+                error: false,
+                errorMsg: "",
+                errorDisplay: false,
+                touched: false,
+                value: this.props.value ? this.props.value : ""
+            }
         };
     }
 
     //Recuperer les styles du champ
-    getStyles = ()=>{ return {}; }
+    getStyles = ()=>{
+        return {};
+    }
 
     //Recuperer les classNames du champ
-    getClassNames = ()=>{ return {}; }
-
-    //Definir les classes et les styles
-    setClassAndStyles = ()=>{
-        this.setState({
-            ...this.getStyles(),
-            ...this.getClassNames()
-        });    
+    getClassNames =()=>{
+        return {};
     }
 
     //Action quand le composant est "Mounted" la 1ere fois
     componentDidMount(){
-        this.validateAndUpdateForm();
+        this.updateValue(this.state.display.value);
     }
 
     //Action quand champ recoit "NewProps"
     componentWillReceiveProps = (nextProps)=>{
         if(nextProps.submitted){
-            this.setState({touched: true}, ()=>{
-                this.validateAndUpdateForm();
-            });
+            this.updateValue(this.state.display.value, true);
         }else{
-            this.validateAndUpdateForm();
+            this.updateValue(this.state.display.value);
         }
     }
 
@@ -70,61 +66,69 @@ export default class Champ extends Component{
 
     //Action quand la valeur du champ est "Changed"
     handleChange = (event)=>{
-        this.updateValue(event.target.value);
-    }
-
-    //Quels champ sont multivalues
-    champMultiValues = (type)=>{
-        let multi = ["CheckboxGroup"];
-        return multi.find(el => el === type) ? true: false;
+        this.updateValue(event.target.value, true);
     }
 
     //Mettre a jour la valeur du champ
-    updateValue = (value)=>{
-
-        //Si les valeurs sont contenus dans un tableau (Checkboxes, Select multiple)
-        if(this.champMultiValues(this.champType)){
+    updateValue = (value, touched=false)=>{
+        
+        //Si les valeurs sont contenus dans un tableau (Checkboxes, Select multiple...)
+        if(this.isChampMultiple){
+            console.log(value);
             let newValue = [];
-            if(this.state.value === ""){
+            if(this.state.display.value === ""){
                 newValue = [];
             }else{
-                newValue = this.state.value;
+                newValue = this.state.display.value;
             }
             if(newValue.find(el=> el === value)){
-                newValue = newValue.filter(el=>el !==value);
+                newValue = newValue.filter(el => el !== value);
             }else{
-                newValue.push(value);
+                if(value !== ""){
+                    newValue.push(value);
+                }
             }
             value = newValue;
         }
 
-        this.setState({ value:value, touched: true }, ()=>{
-             this.validateAndUpdateForm();
-        });
-        if(this.props.onChange){ this.props.onChange(value); }
-    }
-
-    //Valide la valeur du champ et la remonte au parent Form
-    validateAndUpdateForm = ()=>{
         //Validation
-        let retour = Validator(this.champType, this.state.value, this.props);
-        this.setState({
+        let retour = Validator(this.champType, value, this.props);
+
+        //Nouveau state
+        let display = {
             error: retour.error,
             errorMsg: retour.errorMsg,
-            errorDisplay: this.state.touched && retour.error ? true : false
-        },()=>{
-            this.setClassAndStyles();
-            this.redrawChildren();
-        });
+            errorDisplay: retour.error && touched,
+            touched: touched,
+            value: value,
+            ...this.getClassNames(retour.error && touched),
+            ...this.getStyles(retour.error && touched)
+        };
 
-        //Remonter au parent Form
-        if(this.props.updateForm){
-            this.props.updateForm({
-                name: this.props.name,
-                value: this.state.value,
-                valid: !retour.error
+        //Si state different nouveau state
+        if(display !== this.state.display){
+            
+            //Mettre a jour le state
+            this.setState({display}, ()=>{
+                
+                //Redessiner les enfants si champ multiple
+                this.redrawChildren();
+
+                //Mettre a jour le parent Form
+                if(this.props.updateForm){
+                    this.props.updateForm({
+                        name: this.props.name,
+                        value: value,
+                        valid: !retour.error
+                    });
+                }
+
+                //Executer le onChange passed by User
+                if(this.props.onChange){
+                    this.props.onChange(value);
+                }
             });
-        }
+        }  
     }
 
     //Ajouter les nouvelles props aux children
@@ -157,7 +161,7 @@ export default class Champ extends Component{
         });
 
         //Traiter les enfants
-        if(child.type === this.childType){
+        if(this.childTypes.find( el=>child.type )){
             return React.cloneElement(child, addProps);
         }else{
             return child;
@@ -166,9 +170,11 @@ export default class Champ extends Component{
 
     //Redessiner les enfants (si champ contient des enfants)
     redrawChildren = (child) => {
-        this.setState({
-            children: Utils.recursiveReactClone(this.props.children, this.addNewPropsToChildren)
-        });
+        if(this.childTypes.length > 0){
+            this.setState({
+                children: Utils.recursiveReactClone(this.props.children, this.addNewPropsToChildren)
+            });
+        }
     }
 
     //Afficher le champ

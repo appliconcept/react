@@ -7,13 +7,15 @@ import Utils from "../tools/Utils";
 
 export default class Form extends Component{
     
+    values = {};
+    valids = {};
+    childType = [RadioGroup, CheckboxGroup, Input];
+
     //State par default
     constructor(props){
         super(props);
         this.state = {
-            children: [],
-            values: {},
-            valids: {}
+            children: []
         }
     }
 
@@ -28,41 +30,30 @@ export default class Form extends Component{
     submit = ()=>{
         if(this.props.onSubmit){
             let isValid = true;
-            for(let v in this.state.valids){
-                if(!this.state.valids[v]){
+            for(let v in this.valids){
+                if(!this.valids[v]){
                     isValid = false;
                 }
             }
             if(!isValid){
-                let childrenMixed = Utils.recursiveReactClone(this.props.children, this.addChildrenPropsSubmitted);
-                this.setState({children: childrenMixed}, ()=>{
-                    this.props.onSubmit(isValid, this.state.values);
+                this.setState({children: Utils.recursiveReactClone(this.props.children, this.addChildrenPropsSubmitted)}, ()=>{
+                    this.props.onSubmit(isValid, this.values);
                 });
             }else{
-                this.props.onSubmit(isValid, this.state.values);
+                this.props.onSubmit(isValid, this.values);
             }
         }
     }
 
-    //Mettre a jour les valeurs du Form
+    //Mettre a jour les valeurs du Form par les enfants
     updateValues = (child)=>{
-        let newState = {...this.state}
-        newState.values[child.name] = child.value;
-        newState.valids[child.name] = child.valid;
-        this.setState(newState);
-    }
-
-    //Les champs autorises dans les formulaires
-    champAutorises = (type)=>{
-        if(type === CheckboxGroup){ return true; }
-        if(type === Input){ return true; }
-        if(type === RadioGroup){ return true; }
-        return false;
+        this.values[child.name] = child.value;
+        this.valids[child.name] = child.valid;
     }
 
     //Permettre aux children de "updateForm" et "submit"
     addChildrenPropsUpdateSubmit = (child) => {
-        if(this.champAutorises(child.type)){
+        if(this.childType.find(el => el ==child.type)){
             return React.cloneElement(child, {
                 updateForm: this.updateValues
             });
@@ -77,7 +68,7 @@ export default class Form extends Component{
 
     //Afficher les erreurs des children quand "submitted"
     addChildrenPropsSubmitted = (child) => {
-        if(this.champAutorises(child.type)){
+        if(this.childType.find(el => el ==child.type)){
             return React.cloneElement(child, {
                 submitted: true,
                 updateForm: this.updateValues
