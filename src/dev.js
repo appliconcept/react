@@ -16,9 +16,6 @@ class App extends Component{
                 <Container>
                     <Row>
                         <Column medium="6">
-                            <Calendar />
-                            <br/><br/><br/><br/><br/><br/>
-                            {moment().format()}
                             <Form onSubmit={this.submit}>
                                 <Input type="mail" name="mail" label="Email" icon="at" block required rounded primary/>
                                 <RadioGroup name="avis" label="Avis" icon="file-o" block required>
