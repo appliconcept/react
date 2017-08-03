@@ -1,10 +1,11 @@
 import React from "react";
 import Champ from "./Champ";
+import Icon from "./Icon";
 import Checkbox from "./Checkbox";
 import Utils from "../tools/Utils";
-import "../styles/CheckboxGroup.css";
+import "../styles/CheckboxGroup.scss";
 
-export default class CheckboxGroup extends Champ{
+export default class RadioGroup extends Champ{
     
     //State par default
     constructor(props){
@@ -12,24 +13,69 @@ export default class CheckboxGroup extends Champ{
         this.champType = "CheckboxGroup";
         this.childTypes = [Checkbox];
         this.isChampMultiple = true;
-    }
-
-    //Definir les classes du champ
-    getClassNames = (errorDisplay)=>{
-        return {
-            champClass : Utils.applyClass("apc"+this.champType, this.props, errorDisplay, true)
-        };
+        this.classes = ["", "Container", "Wrapper", "LabelWrapper", "Label", "Icon", "FillerFlex", "Clear", "ErrorBox" ];
     }
 
     //Afficher le composant
     render(){
         return(
             <div
-                className={ this.state.champClass ? this.state.champClass : "" }
-                style={this.props.style ? this.props.style : {}}
+                className={this.displayClass("Container")}
+                    style={this.displayStyle("Container")}
             >
-                { this.state.children }
-                { this.state.errorDisplay && <div className="apcCheckboxGroupErrorError">{ this.state.errorMsg }</div>}
+                <div
+                    className={this.displayClass("LabelWrapper")}
+                        style={this.displayStyle("LabelWrapper")}
+                >
+                    {
+                        this.props.icon &&
+                        <Icon name={this.props.icon} className={this.displayClass("Icon")} style={this.displayStyle("Icon")} />
+                    }
+
+                    {
+                        this.props.label &&
+                        <div
+                            className={this.displayClass("Label")}
+                                style={this.displayStyle("Label")}
+                        >
+                            {this.props.label}
+                        </div>
+                    }
+
+                    <div
+                        className={this.displayClass("FillerFlex")}
+                            style={this.displayStyle("FillerFlex")}
+                    >                        
+                    </div>
+                    
+                    {
+                        this.props.clear &&
+                        <div
+                            className={this.displayClass("Clear")}
+                                style={this.displayStyle("Clear")}
+                            onClick={this.handleClear}
+                        >
+                            x
+                        </div>
+                    }
+                </div>
+
+                <div
+                    className={this.displayClass("Wrapper")}
+                        style={this.displayStyle("Wrapper")}
+                >
+                    {this.state.children}
+                </div>
+
+                {
+                    this.state.display.errorDisplay &&
+                    <div
+                        className={this.displayClass("ErrorBox")}
+                            style={this.displayStyle("ErrorBox")}
+                    >
+                        {this.state.display.errorMsg}
+                    </div>
+                }
             </div>
         );
     }

@@ -12,7 +12,7 @@ const Validator = (type, value, props)=>{
     let typeInput = props.type ? props.type : "text";
 
     //Si requis ou pas vide
-    if(required || value !== ""){
+    if(required || value !== "" || value !== []){
 
         //Si vide
         if(length === 0){

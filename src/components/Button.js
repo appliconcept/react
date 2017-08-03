@@ -6,8 +6,8 @@ import "../styles/Button.css";
 export default class Button extends Component{
     //Dessiner le composant
     render(){
-        let champClass = Utils.applyClass("apcButton", this.props, this.state, true);
-        let champIconClass = Utils.applyClass("apcButtonIcon", this.props, this.state);
+        let champClass = Utils.applyClass("apcButton", this.props, false, true);
+        let champIconClass = Utils.applyClass("apcButtonIcon", this.props, false);
         let champStyle = this.props.style ? this.props.style : {};
         return(
             <button

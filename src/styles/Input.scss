@@ -5,275 +5,169 @@
 
 //Base element
 $element: Input;
+$base: #{".apc"}#{$element};
 
-//Styles par defaut
-    //container
-    .apc#{$element}Container{
-        border-style: solid;
-        border-width: $inputBorderWidth;
-        box-sizing: border-box;
-        display: inline-block;
-        margin: 0 0 0 0;
-        max-width: 100%;
-        padding: 0 0 0 0;
-        position: relative;
-        z-index: 100;
+//Default Styles
+    /*Container*/ #{$base}Container{
+        @include defaultcss;
+        @include border;
+        background-color: map-get($colors, White);
+        display: flex;
     }
-    //element
-    .apc#{$element}{
-        background-color: transparent;
-        border: none;
-        box-sizing: border-box;
-        cursor: text;
-        display: inline-block;
-        margin: 0 0 0 0;
-        max-width: 100%;
-        outline: none;
-        width: 100%;
+    /*Element Wrapper*/ #{$base}Wrapper{
+        @include defaultcss;
+        @include noborder;
+        flex: 1;   
     }
-    //icon
-    .apc#{$element}Icon{
-        box-sizing: border-box;
-        display: block;       
-        left: 0px;
-        position: absolute;
-        text-align: center;
-        top: 0px;
-        z-index: -1;   
+    /*Element*/ #{$base}{
+        @include defaultcss;
+        @include noborder;
+        background: transparent;
+        height: 100%;
+        width: 100%;         
     }
-    //label
-    .apc#{$element}Label{
-        border: none;
-        box-sizing: border-box;
-        display: block;
+    /*Icon*/ #{$base}Icon{
+        @include defaultcss;
+        @include nouserinput;
+        @include centercontent;
+    }
+    /*Label*/ #{$base}Label{
+        @include defaultcss;
+        @include nouserinput;
+        @include centercontent;
+        @include borderright;
         font-weight: bold;
-        margin: 0 0 0 0;
-        position: absolute;
-        top: 0px;
-        z-index: -2;  
     }
-    //clear
-
-//Block
-    //container
-    .apc#{$element}ContainerBlock{
-        display: block;
-        width: 100%;
-    }
-    //element
-    .apc#{$element}Block{
-        display: block;
-        width: 100%;
-    }
-
-//Disabled
-    //container
-    .apc#{$element}ContainerDisabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-    //element
-    .apc#{$element}Disabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-    //icon
-    .apc#{$element}IconDisabled{
-        opacity: $disabledOpacity;
-    }
-    //label
-    .apc#{$element}LabelDisabled{
-        opacity: $disabledOpacity;
-    }
-    //label
-    .apc#{$element}ClearDisabled{
-        opacity: $disabledOpacity;
+    /*Clear*/ #{$base}Clear{
+        @include defaultcss;
+        @include centercontent;
+        cursor: pointer;
     }
 
 //Rounded
-    //container
-    .apc#{$element}ContainerRounded{
-        border-radius: $borderRadius;
-    }
-    //element
-    .apc#{$element}Rounded{
-        border-radius: $borderRadius;
-    }
-    //label
-    .apc#{$element}LabelRounded{
-        border-bottom-left-radius: $borderRadius;
-        border-top-left-radius: $borderRadius;
+    /*Container*/ #{$base}ContainerRounded{
+        @include rounded;
     }
 
 //RoundedMax
-    //container
-    .apc#{$element}ContainerRoundedMax{
-        border-radius: $borderRadiusMax;
+    /*Container*/ #{$base}ContainerRoundedMax{
+        @include roundedmax;
     }
-    //element
-    .apc#{$element}RoundedMax{
-        border-radius: $borderRadiusMax;
+
+//NoUserInput
+    /*Container*/ #{$base}ContainerNoUserInput{
+        @include nouserinput;
     }
-    //label
-    .apc#{$element}LabelRoundedMax{
-        border-bottom-left-radius: $borderRadiusMax;
-        border-top-left-radius: $borderRadiusMax;
+
+//Disabled
+    /*Container*/ #{$base}ContainerDisabled{
+        @include disabled;
+    }
+    /*Element*/ #{$base}Disabled{
+        @include disabled;
+    }
+    /*Clear*/ #{$base}ClearDisabled{
+        @include disabled;
     }
 
 //Sizes and Positions
 @each $sizeName, $sizeMap in $sizes {
-
-    //container
-    .apc#{$element}Container#{$sizeName}{
-        height: map-get($sizeMap, height);
-    };
-
-    //element
-    .apc#{$element}#{$sizeName}{
-        font-size: map-get($sizeMap, font-size);
-        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
-        padding-top: map-get($sizeMap, padding-top);
-        padding-bottom: map-get($sizeMap, padding-bottom);
-        padding-left: map-get($sizeMap, padding-left);
-        padding-right: map-get($sizeMap, padding-right);
-    };
-    .apc#{$element}#{$sizeName}Position1{
-        padding-left: map-get($sizeMap, height);
-    };
-    .apc#{$element}#{$sizeName}Position2{
-        padding-left: map-get($sizeMap, height) * 3 + map-get($sizeMap, padding-left);
-    };    
-    .apc#{$element}#{$sizeName}Position3{
-        padding-left: map-get($sizeMap, height) * 4 + map-get($sizeMap, padding-left);
-    };
-    
-    //icon
-    .apc#{$element}Icon#{$sizeName}{
-        font-size: map-get($sizeMap, font-size);
-        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
-        width: map-get($sizeMap, height);
-        padding-top: map-get($sizeMap, padding-top) + 2.5;
-        padding-bottom: map-get($sizeMap, padding-bottom) + 2.5;
-    };
-    .apc#{$element}Icon#{$sizeName}Position0{
-        display: none;
-    };
-    .apc#{$element}Icon#{$sizeName}Position2{
-        display: none;
-    };  
-
-    //label
-    .apc#{$element}Label#{$sizeName}{
-        font-size: map-get($sizeMap, font-size) - apcPaddingTopPlusInputLabel(map-get($sizeMap, font-size));
-        height: map-get($sizeMap, height) - ( 2 * $inputBorderWidth);
-        padding-top: map-get($sizeMap, padding-top) + 2.6;
-        padding-bottom: map-get($sizeMap, padding-bottom);
-        padding-left: map-get($sizeMap, padding-left);
-        padding-right: map-get($sizeMap, padding-right);
+    //Variables
+    $height: map-get($sizeMap, height);
+    $heightnoborder: $height - 2 * $champBorderWidth;
+    $width: map-get($sizeMap, width);
+    $widthnoborder: $width - 2 * $champBorderWidth;
+    $font-size: map-get($sizeMap, font-size);
+    $padding-left: map-get($sizeMap, padding-left);
+    $padding-right: map-get($sizeMap, padding-right);
+  
+    /*Container*/ #{$base}Container#{$sizeName}{
+        height: $height;
     }
-    .apc#{$element}Label#{$sizeName}Position0{
-        display: none;
-    };
-    .apc#{$element}Label#{$sizeName}Position1{
-        display: none;
-    };
-    .apc#{$element}Label#{$sizeName}Position2{
-        width: map-get($sizeMap, height) * 3;
-    };    
-    .apc#{$element}Label#{$sizeName}Position3{
-        padding-left: map-get($sizeMap, height);
-        width: map-get($sizeMap, height) * 4;
-    };
+    /*Wrapper*/ #{$base}Wrapper#{$sizeName}{
+        height: $heightnoborder;
+    }
+    /*Element*/ #{$base}#{$sizeName}{
+        height: $heightnoborder;
+        padding-left: $padding-left;
+    }
+    /*Icon*/ #{$base}Icon#{$sizeName}{
+        font-size: $font-size;
+        height: $heightnoborder;
+        @include fixedwidth($width);
+    }
+    /*Label*/ #{$base}Label#{$sizeName}{
+        font-size: $font-size;
+        height: $heightnoborder;
+        padding-right: $padding-right;
+    }
+    /*Clear*/ #{$base}Clear#{$sizeName}{
+        font-size: $font-size;
+        height: $heightnoborder;
+        @include fixedwidth(($font-size + 2));
+    }
 }
 
 //Colors
 @each $colorName, $color in $colors{
-    
-    //container
-    .apc#{$element}Container#{$colorName}{
-        background-color: map-get($colors,White);
-        border-color: $color;
+    //Variables
+    $colorUsed: $color;
+    @if($colorName == Default){
+        $colorUsed: lighten(map-get($colors, TextColor), $primaryTextOpacity * 1.5);
     }
 
-    //element
-    .apc#{$element}#{$colorName}{
-        @if($colorName == Default){
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-        } @else{
-            color: $color;
-        }
+    /*Container*/ #{$base}Container#{$colorName}{
+        @include border($color);
     }
-
-    //icon
-    .apc#{$element}Icon#{$colorName}{
-        @if($colorName == Default){
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-        } @else{
-             color: $color;
-        }
+    /*Element*/ #{$base}#{$colorName}{
+        color: $colorUsed;
     }
-
-    //Label
-    .apc#{$element}Label#{$colorName}{
-        @if($colorName == Default){
-            background-color: map-get($colors,White);
-            color: apcTextColor(map-get($colors,White));
-        } @else{
-            background-color: map-get($colors,White);
-            color: $color;
-        }
-        border-right-color: lighten(map-get($colors,Default),8%);
-        border-right-style: solid;
-        border-right-width: 1px;
+    /*Icon*/ #{$base}Icon#{$colorName}{
+        color: $colorUsed;
+    }
+    /*Label*/ #{$base}Label#{$colorName}{
+        color: $colorUsed;
+        @include borderright(lighten(map-get($colors, Default), 10%));
+    }
+    /*Clear*/ #{$base}Clear#{$colorName}{
+        color: lighten(map-get($colors, TextColor), $primaryTextOpacity * 3);
     }
 }
-@each $colorName, $color in $colors{
-    
-    //Icon couleur forcee
-    .apc#{$element}IconForced#{$colorName}{
-        @if($colorName == Default){
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-        } @else{
-            color: $color;
-        }
+
+//Noborder
+    /*Container*/ #{$base}ContainerNoBorder{
+        @include noborder;
     }
 
-    //Label couleur forcee
-    .apc#{$element}LabelForced#{$colorName}{
-        @if($colorName == Default){
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-        } @else{
-            color: $color;
-        }
+//Nobg
+    /*Container*/ #{$base}ContainerNoBg{
+        @include nobg;
     }
-}
+
+//Link
+    /*Container*/ #{$base}ContainerLink{
+        @include link;
+    }
 
 //Errors
-    //container
-    .apc#{$element}ContainerError{
-        border-color: map-get($colors, Danger);
-        border-style: solid;
-        border-width: 1px;
-    }
-    //icon
-    .apc#{$element}IconError{
-        color: map-get($colors, Danger);
-    }
-    //element
-    .apc#{$element}Error{
-        color: map-get($colors, Danger);
-    }
-    //label
-    .apc#{$element}LabelError{
-        color: map-get($colors, Danger);
-    }
-    //errorbox
-    .apc#{$element}ErrorBox{
-        color: map-get($colors, Danger);
-        display: block;
+    //box
+    #{$base}ErrorBox{
+        color: $errorColor;
         font-size: 13px;
-        margin: 2px 0 0 0;
         position: absolute;
-        right: 0px;
+        text-align: right;
         top: 100%;
+        width: 100%;
+    }
+    /*Container*/ #{$base}ContainerError{
+        @include border($errorColor);
+    }
+    /*Element*/ #{$base}Error{
+        color: $errorColor;
+    }
+    /*Icon*/ #{$base}IconError{
+        color: $errorColor;
+    }
+    /*Label*/ #{$base}LabelError{
+        color: $errorColor;
     }

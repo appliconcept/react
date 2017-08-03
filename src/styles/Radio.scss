@@ -5,138 +5,94 @@
 
 //Base element
 $element: Radio;
+$base: #{".apc"}#{$element};
 
-//Styles par defaut
-    //container
-    .apc#{$element}Container{
-        box-sizing: border-box;
+//Default Styles
+    /*Container*/ #{$base}Container{
+        @include defaultcss;
+        @include nouserinput;
         cursor: pointer;
-        display: inline-block;
-        position: relative;
-        margin: 0 0 0 0 ;
-        padding: 0 0 0 0;
-    }
-    
-    //element
-    $dotPadding: 4px;
-    .apc#{$element}{
-        border-style: solid;
-        border-width: 1px;
-        box-sizing: border-box;
-        display: block;
-        float: left;
-        margin: 0 0 0 0 ;
-        padding: $dotPadding - 1;
-        position: relative;
+        display: flex;
     }
 
-    //dot
-    .apc#{$element}Dot{
-        box-sizing: border-box;
-        display: inline-block;
-        margin: 0 0 0 0 ;
-        padding: 0 0 0 0;
-        position: relative;
+    /*Element*/ #{$base}{
+        @include defaultcss;
+        @include centercontent;
+        @include border;
+        @include nouserinput;
+        border-radius: 50%;
+        display: flex;        
     }
 
-    //label
-    .apc#{$element}Label{
-        box-sizing: border-box;
-        color: lighten(map-get($colors, TextColor ) , $primaryTextOpacity);
-        display: block;
-        float: left;
-        position: relative;
+    /*Dot*/ #{$base}Dot{
+        @include defaultcss;
+        @include centercontent;
+        @include nouserinput;
+        border-radius: 50%;
+        margin: auto;
     }
 
-//Block
-    //container
-    .apc#{$element}ContainerBlock{
-        display: block;
-        width: 100%;
+    /*Label*/ #{$base}Label{
+        @include defaultcss;
+        @include centercontent;
+        @include nouserinput;
+    }
+
+//Noborder
+    /*Element*/ #{$base}NoBorder{
+        @include noborder;
+    }
+
+//NoUserInput
+    /*Element*/ #{$base}NoUserInput{
+        @include nouserinput;
     }
 
 //Disabled
-    //container
-    .apc#{$element}ContainerDisabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-    
-    //element
-    .apc#{$element}Disabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-
-    //dot
-    .apc#{$element}DotDisabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-
-    //label
-    .apc#{$element}LabelDisabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
+    /*Element*/ #{$base}Disabled{
+        @include disabled;
     }
 
 //Sizes
 @each $sizeName, $sizeMap in $sizes {
+    //Variables
+    $height: map-get($sizeMap, height);
+    $heightnoborder: $height - 2 * $champBorderWidth;
+    $width: map-get($sizeMap, width);
+    $widthnoborder: $width - 2 * $champBorderWidth;
+    $font-size: map-get($sizeMap, font-size);
+    $padding-left: map-get($sizeMap, padding-left);
+    $padding-right: map-get($sizeMap, padding-right);
+    $padding-bottom: map-get($sizeMap, padding-bottom);
+    $padding-top: map-get($sizeMap, padding-top);
 
-    //container
-    .apc#{$element}Container#{$sizeName}{
-        background: #ff0000;
-        height: map-get($sizeMap, height) !important;
-    };
+    /*Container*/ #{$base}Container#{$sizeName}{
+        height: $font-size;
+        padding-left: $padding-left;
+        padding-right: $padding-right;
+        padding-top: $padding-top;
+        margin-bottom: $padding-bottom;
+    }
 
-    //element
-    .apc#{$element}#{$sizeName}{
-        height: map-get($sizeMap, height) / 2;
-        width: map-get($sizeMap, height) / 2;
-        border-radius: map-get($sizeMap, height) / 2;
-    };
+    /*Element*/ #{$base}#{$sizeName}{
+        height: $font-size;
+        @include fixedwidth($font-size);
+    }
 
-    //dot
-    .apc#{$element}Dot#{$sizeName}{
-        height: map-get($sizeMap, height) - ($dotPadding * 2);
-        width: map-get($sizeMap, height) - ($dotPadding * 2);
-        border-radius: (map-get($sizeMap, height) - ($dotPadding * 2)) / 2;
-    };
+    /*Dot*/ #{$base}Dot#{$sizeName}{
+        height: $font-size - 6;
+        @include fixedwidth($font-size - 6);
+    }
 
-    //label
-    .apc#{$element}Label#{$sizeName}{
-        height: map-get($sizeMap, height);
-        font-size: map-get($sizeMap, font-size);
-        padding-top: map-get($sizeMap, padding-top) + 2.6;
-        padding-bottom: map-get($sizeMap, padding-bottom);
-        padding-left: map-get($sizeMap, padding-left);
-        padding-right: map-get($sizeMap, padding-right);
-    };
+    /*Label*/ #{$base}Label#{$sizeName}{
+        height: $font-size;
+        padding-left: $padding-left;
+    }
 }
 
 //Colors
 @each $colorName, $color in $colors{
-
-    @if( $colorName == Default ){
-        //element
-        .apc#{$element}#{$colorName}{
-            border-color: darken($color, 20%);
-        };
-
-        //dot
-        .apc#{$element}Dot#{$colorName}{
-            background-color: transparent;
-        }; 
-    } @else{
-        //element
-        .apc#{$element}#{$colorName}{
-            border-color: $color;
-        };
-
-        //dot
-        .apc#{$element}Dot#{$colorName}{
-            background-color: $color;
-        };  
+    /*Dot*/ #{$base}Dot#{$colorName}{
+        background-color: $color;
     }
 }
-

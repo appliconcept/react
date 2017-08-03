@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import Icon from "./Icon";
 import Utils from "../tools/Utils";
-import "../styles/Checkbox.css";
+import { Colors } from "../tools/Settings";
+import "../styles/Checkbox.scss";
 
 export default class Checkbox extends Component{
+
+    champType = "Checkbox";
+
     constructor(props){
         super(props);
         this.state = {
-            checked: this.isChampChecked(this.props),
-            champClass: "",
-            champClassDot: ""
+            checked: this.isChampChecked(this.props)
         };
     }
 
@@ -39,60 +41,66 @@ export default class Checkbox extends Component{
     handleClick = (evt)=>{
         if(this.props.updateParent && !this.props.disabled){
             this.props.updateParent(this.props.value);
+            if(this.props.onClick){
+                this.props.onClick(evt);
+            }
         }
     }
 
     //Definir classes du Checkbox
     setClassName = ()=>{
-        let champClass = Utils.applyClass("apcCheckbox", this.props, this.state, true);
-        let champClassDot = Utils.applyClass("apcCheckboxDot", this.props, this.state);
-        let champContainerClass = Utils.applyClass("apcCheckboxContainer", this.props, this.state);
-        let champClassLabel = Utils.applyClass("apcCheckboxLabel", this.props, this.state);
-
-        //Si pas checked mettre la couleur Default
+        let base = "apc"+this.champType;
+        let champContainerClass = Utils.applyClass(base+"Container", this.props, false);
+        let champClass = Utils.applyClass(base, this.props, false);
+        let champDotClass = Utils.applyClass(base+"Dot", this.props, false);
+        let champLabelClass = Utils.applyClass(base+"Label", this.props, false);
+        
+        //Si champ pas coche
         if(!this.state.checked){
-            Utils.colors.forEach((color)=>{
-                champClass = champClass.replace("apcCheckbox"+color, "apcCheckboxDefault");
-                champClassDot = champClassDot.replace("apcCheckboxDot"+color, "apcCheckboxDotDefault");
+            Colors.map((color)=>{
+                if(this.props[color.toLowerCase()]){
+                    champDotClass = champDotClass.replace(base+"Dot"+color, base+"Dot"+"Default");
+                }
             });
-        }else{
-            //Si pas de couleur utilisateur appliquer la coleur primaire
+        }
+        //Mettre la couleur de fond si coche
+        else{
+            //Si pas de couleur rajoute primary
             let nocolor = true;
-            Utils.colors.forEach((color)=>{
+            Colors.map((color)=>{
                 if(this.props[color.toLowerCase()]){
                     nocolor = false;
                 }
             });
             if(nocolor){
-                champClass = champClass.replace("apcCheckboxDefault", "apcCheckboxPrimary");
-                champClassDot = champClassDot.replace("apcCheckboxDotDefault", "apcCheckboxDotPrimary");
+                champDotClass = champDotClass.replace(base+"Dot"+"Default", base+"Dot"+"Primary");
             }
         }
 
-        //Mettre a jour les classes dans le state
+        //Mettre a jour le state
         this.setState({
-            champClass,
-            champClassDot,
             champContainerClass,
-            champClassLabel
-        });
+            champClass,
+            champDotClass,
+            champLabelClass
+        })
     }
     
     //Dessiner le composant
     render(){
         return(
             <label
-                className={ this.state.champContainerClass }
+                className={ this.state.champContainerClass ? this.state.champContainerClass : "" }
                 style={ this.props.style ? this.props.style : {} }
                 onClick={ this.handleClick }
             >
-                <span className={ this.state.champClass }>
+                <span className={ this.state.champClass ? this.state.champClass : "" }>
                     {
                         this.state.checked &&
-                        <Icon className={this.state.champClassDot} name="check"/>
+                        <Icon className={ this.state.champDotClass ? this.state.champDotClass : ""} name="check"/>
                     }
                 </span>
-                <span className={this.state.champClassLabel}>{this.props.label}</span>
+                <span className={ this.state.champLabelClass ? this.state.champLabelClass : ""}>{this.props.label}</span>
             </label>
         );  
     }

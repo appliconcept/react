@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../styles/Column.css";
+import "../styles/Column.scss";
 
 export default class Column extends Component{
     render(){

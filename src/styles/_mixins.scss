@@ -15,3 +15,82 @@
         @return 2;
     }
 }
+
+//DefaultCss
+@mixin defaultcss{
+    box-sizing: border-box;
+    display: block;
+    margin: 0 0 0 0;
+    outline: none;
+    padding: 0 0 0 0;
+    position: relative;
+    z-index: 100;
+}
+
+//Fixed width
+@mixin fixedwidth($width){
+    flex: 0 0 $width;
+    width: $width;
+}
+
+//Center content (Horizontal and Vertical)
+@mixin centercontent{
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center
+}
+
+//Rounded
+@mixin rounded{
+    border-radius: $borderRadius;
+}
+
+//RoundedMax
+@mixin roundedmax{
+    border-radius: $borderRadiusMax;
+}
+
+//Nobg
+@mixin nobg{
+    background-color: transparent;
+}
+
+//Noborder, border, bordertop ...
+@mixin noborder{
+    border: none;
+}
+@mixin border($color: #cccccc, $width: $champBorderWidth, $style: "solid"){
+    border: #{$width} #{$style} #{$color};
+}
+@mixin bordertop($color: #cccccc, $width: $champBorderWidth, $style: "solid"){
+    border-top: #{$width} #{$style} #{$color};
+}
+@mixin borderright($color: #cccccc, $width: $champBorderWidth, $style: "solid"){
+    border-right: #{$width} #{$style} #{$color};
+}
+@mixin borderbottom($color: #cccccc, $width: $champBorderWidth, $style: "solid"){
+    border-bottom: #{$width} #{$style} #{$color};
+}
+@mixin borderleft($color: #cccccc, $width: $champBorderWidth, $style: "solid"){
+    border-left: #{$width} #{$style} #{$color};
+}
+
+//Link (noborder, nobg)
+@mixin link{
+    @include noborder;
+    @include nobg;
+}
+
+//NoUserInput
+@mixin nouserinput{
+    user-select: none;
+}
+
+//Disabled
+@mixin disabled{
+    cursor: not-allowed;
+    opacity: $disabledOpacity;
+    user-select: none;
+}

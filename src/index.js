@@ -1,5 +1,4 @@
 import Button from "./components/Button";
-import Calendar from "./components/Calendar";
 import Checkbox from "./components/Checkbox";
 import CheckboxGroup from "./components/CheckboxGroup";
 import Column from "./components/Column.js";
@@ -11,10 +10,10 @@ import Radio from "./components/Radio";
 import RadioGroup from "./components/RadioGroup";
 import Row from "./components/Row";
 import Submit from "./components/Submit";
+import Textarea from "./components/Textarea";
 
 export {
     Button,
-    Calendar,
     Checkbox,
     CheckboxGroup,
     Column,
@@ -25,5 +24,6 @@ export {
     Radio,
     RadioGroup,
     Row,
-    Submit
+    Submit,
+    Textarea
 }

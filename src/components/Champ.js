@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Utils from "../tools/Utils";
+import { Colors, Sizes } from "../tools/Settings";
 import Validator from "../tools/Validator";
 
 export default class Champ extends Component{
@@ -7,6 +8,7 @@ export default class Champ extends Component{
     //Proprietes de classes
     champType = "Champ";
     childTypes = [];
+    classes = [];
     isChampMultiple = false;
 
     //State par default
@@ -25,13 +27,33 @@ export default class Champ extends Component{
     }
 
     //Recuperer les styles du champ
-    getStyles = ()=>{
-        return {};
+    getStyles = (errorDisplay)=>{
+        return {
+            champContainerStyle: this.props.style ? this.props.style : {}
+        };
     }
 
     //Recuperer les classNames du champ
-    getClassNames =()=>{
-        return {};
+    getClassNames = (errorDisplay)=>{
+        let base = "apc"+this.champType;
+        let elements = {};
+        this.classes.map((cl)=>{
+            let adduser = (cl == "Container") ? true: false;
+            elements["champ"+cl+"Class"] = Utils.applyClass("apc"+this.champType+cl, this.props, errorDisplay, adduser);
+        });
+        return elements;
+    }
+
+    //Afficher les classes
+    displayClass(name){
+        name = "champ"+name+"Class";
+        return this.state.display[name] ? this.state.display[name] : "";
+    }
+
+    //Afficher les styles
+    displayStyle(name){
+        name = "champ"+name+"Style";
+        return this.state.display[name] ? this.state.display[name] : {};
     }
 
     //Action quand le composant est "Mounted" la 1ere fois
@@ -42,9 +64,9 @@ export default class Champ extends Component{
     //Action quand champ recoit "NewProps"
     componentWillReceiveProps = (nextProps)=>{
         if(nextProps.submitted){
-            this.updateValue(this.state.display.value, true);
+            this.updateValue(this.state.display.value, true, true);
         }else{
-            this.updateValue(this.state.display.value);
+            this.updateValue(nextProps.value ? nextProps.value : this.state.display.value);
         }
     }
 
@@ -69,26 +91,39 @@ export default class Champ extends Component{
         this.updateValue(event.target.value, true);
     }
 
+    //Action quand on clear le champ
+    handleClear = ()=>{
+        this.updateValue("::APC_CLEAR_ALL::", true);
+    }
+
     //Mettre a jour la valeur du champ
-    updateValue = (value, touched=false)=>{
+    updateValue = (value, touched=false, submitted=false)=>{
         
-        //Si les valeurs sont contenus dans un tableau (Checkboxes, Select multiple...)
-        if(this.isChampMultiple){
-            console.log(value);
-            let newValue = [];
-            if(this.state.display.value === ""){
-                newValue = [];
-            }else{
-                newValue = this.state.display.value;
+        //Si effacement du champ
+        if(value == "::APC_CLEAR_ALL::"){
+            value = "";
+            if(this.isChampMultiple){
+                value = []; 
             }
-            if(newValue.find(el=> el === value)){
-                newValue = newValue.filter(el => el !== value);
-            }else{
-                if(value !== ""){
-                    newValue.push(value);
+        }else{
+
+            //Si les valeurs sont contenus dans un tableau (Checkboxes, Select multiple...)
+            if(this.isChampMultiple && !submitted){
+                let newValue = [];
+                if(this.state.display.value === ""){
+                    newValue = [];
+                }else{
+                    newValue = this.state.display.value;
                 }
+                if(newValue.find(el=> el === value)){
+                    newValue = newValue.filter(el => el !== value);
+                }else{
+                    if(value !== ""){
+                        newValue.push(value);
+                    }
+                }
+                value = newValue; 
             }
-            value = newValue;
         }
 
         //Validation
@@ -137,7 +172,7 @@ export default class Champ extends Component{
         //Par defaut ajouter la valeur actuel du parent et methode de maj du parent
         let addProps = {};
         addProps["updateParent"] = this.updateValue;
-        addProps["parentValue"] = this.state.value;
+        addProps["parentValue"] = this.state.display.value;
 
         //Ajouter "Block", "Disabled", "Readonly", "Rounded", "RoundedMax"
         if(this.props["block"]){ addProps["block"] = true; }
@@ -147,14 +182,14 @@ export default class Champ extends Component{
         if(this.props["roundedmax"]){ addProps["roundedmax"] = true; }
 
         //Ajouter les couleurs
-        Utils.colors.forEach((color)=>{
+        Colors.forEach((color)=>{
             if( this.props[color.toLowerCase()] ){
                 addProps[color.toLowerCase()] = true;
             }
         });
 
         //Ajouter les tailles
-        Utils.sizes.forEach((size)=>{
+        Sizes.forEach((size)=>{
             if( this.props[size.toLowerCase()] ){
                 addProps[size.toLowerCase()] = true;
             }

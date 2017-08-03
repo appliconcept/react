@@ -1,10 +1,10 @@
-/**CHECKBOXGROUP**/
+/**TEXTAREA**/
 
 //Variables, fonts, mixins
 @import "./import.scss";
 
 //Base element
-$element: CheckboxGroup;
+$element: Textarea;
 $base: #{".apc"}#{$element};
 
 //Default Styles
@@ -98,7 +98,14 @@ $base: #{".apc"}#{$element};
   
     /*Container*/ #{$base}Container#{$sizeName}{
         min-height: $height;
-        padding-bottom: $padding-bottom*2;
+    }
+    /*Element*/ #{$base}#{$sizeName}{
+        min-height: 2 * $height;
+        padding-left: $padding-left;
+        padding-right: $padding-right;
+        padding-bottom: $padding-bottom;
+        padding-top: $padding-top;
+        resize: vertical;
     }
     /*LabelWrapper*/ #{$base}LabelWrapper#{$sizeName}{
         font-size: $font-size;

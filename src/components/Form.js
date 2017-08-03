@@ -3,13 +3,14 @@ import CheckboxGroup from "./CheckboxGroup";
 import Input from "./Input";
 import RadioGroup from "./RadioGroup";
 import Submit from "./Submit";
+import Textarea from "./Textarea";
 import Utils from "../tools/Utils";
 
 export default class Form extends Component{
     
     values = {};
     valids = {};
-    childType = [RadioGroup, CheckboxGroup, Input];
+    childType = [CheckboxGroup, Input, RadioGroup, Textarea];
 
     //State par default
     constructor(props){

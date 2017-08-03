@@ -1,15 +1,23 @@
 import React, { Component } from "react";
+import Icon from "./Icon";
 import Utils from "../tools/Utils";
-import "../styles/Radio.css";
+import { Colors } from "../tools/Settings";
+import "../styles/Radio.scss";
 
-export default class Radio extends Component{
+export default class Checkbox extends Component{
+
+    champType = "Radio";
+
     constructor(props){
         super(props);
         this.state = {
-            checked: this.props.parentValue && this.props.parentValue === this.props.value ? true: false,
-            champClass: "",
-            champClassDot: ""
+            checked: this.isChampChecked(this.props)
         };
+    }
+
+    //Verifier si champ checked
+    isChampChecked(props){
+        return props.parentValue && props.parentValue === props.value ? true: false;
     }
 
     //Action quand le composant est "Mounted" la 1ere fois
@@ -17,70 +25,79 @@ export default class Radio extends Component{
         this.setClassName();
     }
 
-    //Action quand Radio recoit "NewProps"
+    //Action quand Checkbox recoit "NewProps"
     componentWillReceiveProps = (nextProps)=>{
         this.setState({
-            checked: nextProps.parentValue && nextProps.parentValue === nextProps.value ? true: false
+            checked: this.isChampChecked(nextProps)
         },()=>{
             this.setClassName();
         });
     }
 
-    //Action quand Radio est "Clicked"
+    //Action quand Checkbox est "Clicked"
     handleClick = (evt)=>{
         if(this.props.updateParent && !this.props.disabled){
             this.props.updateParent(this.props.value);
+            if(this.props.onClick){
+                this.props.onClick(evt);
+            }
         }
     }
 
-    //Definir classes du Radio
-    setClassName = (errorDisplay)=>{
-        let champClass = Utils.applyClass("apcRadio", this.props, errorDisplay, true);
-        let champClassDot = Utils.applyClass("apcRadioDot", this.props, errorDisplay);
-        let champContainerClass = Utils.applyClass("apcRadioContainer", this.props, errorDisplay);
-        let champClassLabel = Utils.applyClass("apcRadioLabel", this.props, errorDisplay);
-
-        //Si pas checked mettre la couleur Default
+    //Definir classes du Checkbox
+    setClassName = ()=>{
+        let base = "apc"+this.champType;
+        let champContainerClass = Utils.applyClass(base+"Container", this.props, false);
+        let champClass = Utils.applyClass(base, this.props, false);
+        let champDotClass = Utils.applyClass(base+"Dot", this.props, false);
+        let champLabelClass = Utils.applyClass(base+"Label", this.props, false);
+        
+        //Si champ pas coche
         if(!this.state.checked){
-            Utils.colors.forEach((color)=>{
-                champClass = champClass.replace("apcRadio"+color, "apcRadioDefault");
-                champClassDot = champClassDot.replace("apcRadioDot"+color, "apcRadioDotDefault");
+            Colors.map((color)=>{
+                if(this.props[color.toLowerCase()]){
+                    champDotClass = champDotClass.replace(base+"Dot"+color, base+"Dot"+"Default");
+                }
             });
-        }else{
-            //Si pas de couleur utilisateur appliquer la coleur primaire
+        }
+        //Mettre la couleur de fond si coche
+        else{
+            //Si pas de couleur rajoute primary
             let nocolor = true;
-            Utils.colors.forEach((color)=>{
+            Colors.map((color)=>{
                 if(this.props[color.toLowerCase()]){
                     nocolor = false;
                 }
             });
             if(nocolor){
-                champClass = champClass.replace("apcRadioDefault", "apcRadioPrimary");
-                champClassDot = champClassDot.replace("apcRadioDotDefault", "apcRadioDotPrimary");
+                champDotClass = champDotClass.replace(base+"Dot"+"Default", base+"Dot"+"Primary");
             }
         }
 
-        //Mettre a jour les classes dans le state
+        //Mettre a jour le state
         this.setState({
-            champClass,
-            champClassDot,
             champContainerClass,
-            champClassLabel
-        });
+            champClass,
+            champDotClass,
+            champLabelClass
+        })
     }
     
     //Dessiner le composant
     render(){
         return(
             <label
-                className={ this.state.champContainerClass }
+                className={ this.state.champContainerClass ? this.state.champContainerClass : "" }
                 style={ this.props.style ? this.props.style : {} }
                 onClick={ this.handleClick }
             >
-                <span className={ this.state.champClass }>
-                    { this.state.checked && <span className={this.state.champClassDot}></span> }
+                <span className={ this.state.champClass ? this.state.champClass : "" }>
+                    {
+                        this.state.checked &&
+                        <span className={ this.state.champDotClass ? this.state.champDotClass : ""}></span>
+                    }
                 </span>
-                <span className={this.state.champClassLabel}>{this.props.label}</span>
+                <span className={ this.state.champLabelClass ? this.state.champLabelClass : ""}>{this.props.label}</span>
             </label>
         );  
     }

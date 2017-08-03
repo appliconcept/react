@@ -1,21 +1,19 @@
 import React from "react";
 import Champ from "./Champ";
 import Icon from "./Icon";
-import Radio from "./Radio";
 import Utils from "../tools/Utils";
-import "../styles/RadioGroup.scss";
+import "../styles/Textarea.scss";
 
-export default class RadioGroup extends Champ{
-    
-    //State par default
+export default class Input extends Champ{
+
+    //Definir le type de champ
     constructor(props){
         super(props);
-        this.champType = "RadioGroup";
-        this.childTypes = [Radio];
+        this.champType = "Textarea";
         this.classes = ["", "Container", "Wrapper", "LabelWrapper", "Label", "Icon", "FillerFlex", "Clear", "ErrorBox" ];
     }
 
-    //Afficher le composant
+    //Dessiner le champ
     render(){
         return(
             <div
@@ -63,7 +61,19 @@ export default class RadioGroup extends Champ{
                     className={this.displayClass("Wrapper")}
                         style={this.displayStyle("Wrapper")}
                 >
-                    {this.state.children}
+                    <textarea
+                        className={this.state.display.champClass ? this.state.display.champClass : ""}
+                        disabled={(this.props.disabled | this.props.readonly) ? "disabled" : ""}
+                        onBlur={this.handleBlur}
+                        onClick={this.handleClick}
+                        onChange={this.handleChange}
+                        onFocus={this.handleFocus}
+                        placeholder={this.props.placeholder}
+                        readOnly={(this.props.disabled | this.props.readonly | this.props.nouserinput) ? "readonly" : ""}
+                        style={this.state.display.champStyle ? this.state.display.champStyle : {}}
+                        value={this.state.display.value}
+                    >                    
+                    </textarea>
                 </div>
 
                 {

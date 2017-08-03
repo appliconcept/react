@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "../styles/Row.css";
+import "../styles/Row.scss";
 
 export default class Row extends Component{
     render(){
         let composedClass = "apcRow";
-        composedClass += this.props.className ? " "+this.props.className : "";
+        composedClass += this.props.className ? " "+this.props.className : ""
         return(
             <div
                 className={composedClass}
