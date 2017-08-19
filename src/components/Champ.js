@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import Utils from "../tools/Utils";
-import { Colors, Sizes } from "../tools/Settings";
+import { Attrs, Colors, Elems, Sizes } from "../tools/Settings";
 import Validator from "../tools/Validator";
 
 export default class Champ extends Component{
 
-    //Proprietes de classes
+    //Classes properties
     champType = "Champ";
     childTypes = [];
-    classes = [];
     isChampMultiple = false;
 
-    //State par default
+    //define default state
     constructor(props){
         super(props);
         this.state = {
@@ -20,86 +19,99 @@ export default class Champ extends Component{
                 error: false,
                 errorMsg: "",
                 errorDisplay: false,
-                touched: false,
-                value: this.props.value ? this.props.value : ""
+                touched: false
+            },
+            value: this.props.value ? this.props.value : ""
+        };
+    }
+
+    //Update value when component is mounted
+    componentDidMount(){
+        this.updateValue(this.state.value, false, false);
+    }
+
+    //Update value when component receives new props
+    componentWillReceiveProps = (nextProps)=>{
+        if(nextProps.submitted){
+            this.updateValue(this.state.value, true, true);
+        }else{
+            if(nextProps.value && nextProps.value !== this.state.value){
+                this.updateValue(nextProps.value, true, false);
             }
-        };
+        }
     }
 
-    //Recuperer les styles du champ
+    //Define component styles to later update state
     getStyles = (errorDisplay)=>{
-        return {
-            champContainerStyle: this.props.style ? this.props.style : {}
-        };
+        let styles = {};
+        let classes = this.getClassNames(errorDisplay);
+        let adduser = false;
+        for(let prop in classes){
+            adduser = (prop.replace("Class", "Style") == "champContainerStyle") ? true: false;
+            styles[prop.replace("Class", "Style")] = {};
+            if(adduser){
+                styles[prop.replace("Class", "Style")] = {
+                    ...styles[prop.replace("Class", "Style")],
+                    ...this.props.style ? this.props.style : {}
+                };
+            }
+        }
+        return styles;
     }
 
-    //Recuperer les classNames du champ
+    //Define component classes to later update state
     getClassNames = (errorDisplay)=>{
-        let base = "apc"+this.champType;
-        let elements = {};
-        this.classes.map((cl)=>{
-            let adduser = (cl == "Container") ? true: false;
-            elements["champ"+cl+"Class"] = Utils.applyClass("apc"+this.champType+cl, this.props, errorDisplay, adduser);
+        let classes = {};
+        let adduser = false;
+        Elems.map((elem)=>{
+            adduser = (elem == "Container") ? true: false;
+            classes["champ"+elem+"Class"] = Utils.applyClass("apc" + this.champType + elem, this.props, errorDisplay, adduser);
         });
-        return elements;
+        return classes;
     }
 
-    //Afficher les classes
+    //Attach a specific class to component
     displayClass(name){
         name = "champ"+name+"Class";
         return this.state.display[name] ? this.state.display[name] : "";
     }
 
-    //Afficher les styles
+    //Attach a specific style to component
     displayStyle(name){
         name = "champ"+name+"Style";
         return this.state.display[name] ? this.state.display[name] : {};
     }
 
-    //Action quand le composant est "Mounted" la 1ere fois
-    componentDidMount(){
-        this.updateValue(this.state.display.value);
-    }
-
-    //Action quand champ recoit "NewProps"
-    componentWillReceiveProps = (nextProps)=>{
-        if(nextProps.submitted){
-            this.updateValue(this.state.display.value, true, true);
-        }else{
-            this.updateValue(nextProps.value ? nextProps.value : this.state.display.value);
-        }
-    }
-
-    //Action quand champ est "Clicked"
+    //Handle onClick action
     handleClick = (event)=>{
         if(this.props.onClick){ this.props.onClick(event); }
     }
 
-    //Action quand champ est "Focus"
+    //Handle onFocus action
     handleFocus = (event)=>{
         if(this.props.onFocus){ this.props.onFocus(event); }
     }
 
-    //Action quand champ est "Blurred"
+    //Handle onClur action
     handleBlur = (event)=>{
         this.handleChange(event);
         if(this.props.onBlur){ this.props.onBlur(event); }
     }
 
-    //Action quand la valeur du champ est "Changed"
+    //Handle onChange action
     handleChange = (event)=>{
         this.updateValue(event.target.value, true);
     }
 
-    //Action quand on clear le champ
+    //Handle clear action (custom action)
     handleClear = ()=>{
         this.updateValue("::APC_CLEAR_ALL::", true);
     }
 
-    //Mettre a jour la valeur du champ
+    //Update component value, display and state
     updateValue = (value, touched=false, submitted=false)=>{
         
-        //Si effacement du champ
+        //Clear value if clear action is triggered
         if(value == "::APC_CLEAR_ALL::"){
             value = "";
             if(this.isChampMultiple){
@@ -107,95 +119,104 @@ export default class Champ extends Component{
             }
         }else{
 
-            //Si les valeurs sont contenus dans un tableau (Checkboxes, Select multiple...)
-            if(this.isChampMultiple && !submitted){
-                let newValue = [];
-                if(this.state.display.value === ""){
-                    newValue = [];
-                }else{
-                    newValue = this.state.display.value;
-                }
-                if(newValue.find(el=> el === value)){
-                    newValue = newValue.filter(el => el !== value);
-                }else{
-                    if(value !== ""){
-                        newValue.push(value);
+            //Handle component with multiple values (checkboxes, selects...)
+            if(this.isChampMultiple){
+
+                //if value is nor already an array passed from props
+                if(!Array.isArray(value)){
+                    let newValue = [];
+                    if(this.state.value === ""){
+                        newValue = [];
+                    }else{
+                        newValue = this.state.value;
                     }
+                    if(newValue.find(el=> el === value)){
+                        newValue = newValue.filter(el => el !== value);
+                    }else{
+                        if(value !== ""){
+                            newValue.push(value);
+                        }
+                    }
+                    value = newValue;
                 }
-                value = newValue; 
             }
         }
 
-        //Validation
+        //Validate value (required, mail, phone, currency...)
         let retour = Validator(this.champType, value, this.props);
 
-        //Nouveau state
-        let display = {
-            error: retour.error,
-            errorMsg: retour.errorMsg,
-            errorDisplay: retour.error && touched,
-            touched: touched,
-            value: value,
-            ...this.getClassNames(retour.error && touched),
-            ...this.getStyles(retour.error && touched)
+        //Define new state
+        let newState = {
+            display: {
+                error: retour.error,
+                errorMsg: retour.errorMsg,
+                errorDisplay: retour.error && touched,
+                touched: touched,
+                value: value,
+                ...this.getClassNames(retour.error && touched),
+                ...this.getStyles(retour.error && touched)
+            },
+            value: value
         };
 
-        //Si state different nouveau state
-        if(display !== this.state.display){
+        //Launch custom onChange passed by user/dev if value changed
+        if(value !== this.state.value){
+            if(this.props.onChange){
+                this.props.onChange(value);
+            }
+        }
+        
+        //Update parent component if parent is of type Form
+        if(this.props.updateForm){
+            this.props.updateForm({
+                name: this.props.name,
+                value: value,
+                valid: !retour.error
+            });
+        }
+
+        //Test if display or value changed
+        if(newState.display !== this.state.display | newState.value !== this.state.value){
             
-            //Mettre a jour le state
-            this.setState({display}, ()=>{
+            //Update state
+            this.setState(newState, ()=>{
                 
-                //Redessiner les enfants si champ multiple
+                //Redraw children if multiple values component
                 this.redrawChildren();
-
-                //Mettre a jour le parent Form
-                if(this.props.updateForm){
-                    this.props.updateForm({
-                        name: this.props.name,
-                        value: value,
-                        valid: !retour.error
-                    });
-                }
-
-                //Executer le onChange passed by User
-                if(this.props.onChange){
-                    this.props.onChange(value);
-                }
             });
         }  
     }
 
-    //Ajouter les nouvelles props aux children
+    //Add new props to children component defined in this.childTypes
     addNewPropsToChildren = (child) => {
         
-        //Par defaut ajouter la valeur actuel du parent et methode de maj du parent
+        //Add parent value and parent update function
         let addProps = {};
         addProps["updateParent"] = this.updateValue;
-        addProps["parentValue"] = this.state.display.value;
+        addProps["parentValue"] = this.state.value;
 
-        //Ajouter "Block", "Disabled", "Readonly", "Rounded", "RoundedMax"
-        if(this.props["block"]){ addProps["block"] = true; }
-        if(this.props["disabled"]){ addProps["disabled"] = true; }
-        if(this.props["readonly"]){ addProps["readonly"] = true; }
-        if(this.props["rounded"]){ addProps["rounded"] = true; }
-        if(this.props["roundedmax"]){ addProps["roundedmax"] = true; }
+        //Add customs attributes (Required, Rounded, RoundedMax, Block ...)
+        Attrs.map((attr)=>{
+            if(this.props[attr.toLowerCase()]){
+                addProps[attr.toLowerCase()] = true;
+            }
+        });
 
-        //Ajouter les couleurs
+        //Add colors props
         Colors.forEach((color)=>{
             if( this.props[color.toLowerCase()] ){
                 addProps[color.toLowerCase()] = true;
             }
         });
 
-        //Ajouter les tailles
+        //Add sizes props
         Sizes.forEach((size)=>{
             if( this.props[size.toLowerCase()] ){
                 addProps[size.toLowerCase()] = true;
             }
         });
 
-        //Traiter les enfants
+        //Update corresponding children with new props
         if(this.childTypes.find( el=>child.type )){
             return React.cloneElement(child, addProps);
         }else{
@@ -203,7 +224,7 @@ export default class Champ extends Component{
         }
     }
 
-    //Redessiner les enfants (si champ contient des enfants)
+    //Redraw children when updating multiple values component state
     redrawChildren = (child) => {
         if(this.childTypes.length > 0){
             this.setState({
@@ -212,7 +233,7 @@ export default class Champ extends Component{
         }
     }
 
-    //Afficher le champ
+    //Display component, will be replace when this class is extended
     render(){
         return(
             <div></div>

@@ -10,7 +10,6 @@ export default class Input extends Champ{
     constructor(props){
         super(props);
         this.champType = "Textarea";
-        this.classes = ["", "Container", "Wrapper", "LabelWrapper", "Label", "Icon", "FillerFlex", "Clear", "ErrorBox" ];
     }
 
     //Dessiner le champ

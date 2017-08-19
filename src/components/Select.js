@@ -1,17 +1,18 @@
 import React from "react";
 import Champ from "./Champ";
 import Icon from "./Icon";
-import Radio from "./Radio";
+import Option from "./Option";
 import Utils from "../tools/Utils";
-import "../styles/RadioGroup.scss";
+import "../styles/Select.scss";
 
-export default class RadioGroup extends Champ{
+export default class Select extends Champ{
     
     //State par default
     constructor(props){
         super(props);
-        this.champType = "RadioGroup";
-        this.childTypes = [Radio];
+        this.champType = "Select";
+        this.childTypes = [Option];
+        this.isChampMultiple = this.props.multiple ? true : false;
     }
 
     //Afficher le composant

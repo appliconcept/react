@@ -12,7 +12,7 @@ export default class Form extends Component{
     valids = {};
     childType = [CheckboxGroup, Input, RadioGroup, Textarea];
 
-    //State par default
+    //Default state
     constructor(props){
         super(props);
         this.state = {
@@ -20,14 +20,14 @@ export default class Form extends Component{
         }
     }
 
-    //Action quand Form est "Mounted"
+    //Draw children when component is mounted
     componentDidMount = ()=>{
         this.setState({
             children: Utils.recursiveReactClone(this.props.children, this.addChildrenPropsUpdateSubmit)
         });
     }
 
-    //Valider et envoyer le Form
+    //Validate and submit values
     submit = ()=>{
         if(this.props.onSubmit){
             let isValid = true;
@@ -37,22 +37,19 @@ export default class Form extends Component{
                 }
             }
             if(!isValid){
-                this.setState({children: Utils.recursiveReactClone(this.props.children, this.addChildrenPropsSubmitted)}, ()=>{
-                    this.props.onSubmit(isValid, this.values);
-                });
-            }else{
-                this.props.onSubmit(isValid, this.values);
+                this.setState({children: Utils.recursiveReactClone(this.props.children, this.addChildrenPropsSubmitted)});
             }
+            this.props.onSubmit(isValid, this.values);
         }
     }
 
-    //Mettre a jour les valeurs du Form par les enfants
+    //Used by children to update forms values
     updateValues = (child)=>{
         this.values[child.name] = child.value;
         this.valids[child.name] = child.valid;
     }
 
-    //Permettre aux children de "updateForm" et "submit"
+    //Add function updateForm and Submit as props to corresponding children
     addChildrenPropsUpdateSubmit = (child) => {
         if(this.childType.find(el => el ==child.type)){
             return React.cloneElement(child, {
@@ -67,9 +64,9 @@ export default class Form extends Component{
         }
     }
 
-    //Afficher les erreurs des children quand "submitted"
+    //Adds submitted properties to children when user/dev clicks on Submit component
     addChildrenPropsSubmitted = (child) => {
-        if(this.childType.find(el => el ==child.type)){
+        if(this.childType.find(el => el == child.type)){
             return React.cloneElement(child, {
                 submitted: true,
                 updateForm: this.updateValues
@@ -83,7 +80,7 @@ export default class Form extends Component{
         }
     }
 
-    //Afficher le composant
+    //Rendrer components and children
     render(){
         return(
             <div

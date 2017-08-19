@@ -9,7 +9,6 @@ export default class Input extends Champ{
     constructor(props){
         super(props);
         this.champType = "Input";
-        this.classes = ["", "Container", "Wrapper", "LabelWrapper", "Label", "Icon", "Clear", "ErrorBox" ];
     }
 
     //Dessiner le champ
@@ -50,7 +49,7 @@ export default class Input extends Champ{
                         placeholder={this.props.placeholder}
                         readOnly={(this.props.disabled | this.props.readonly | this.props.nouserinput) ? "readonly" : ""}
                         type={(this.props.type && this.props.type === "password") ? "password" : "text"}
-                        value={this.state.display.value}
+                        value={this.state.value}
                     />
                 </div>
 

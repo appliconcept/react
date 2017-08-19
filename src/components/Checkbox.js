@@ -40,7 +40,7 @@ export default class Checkbox extends Component{
     //Action quand Checkbox est "Clicked"
     handleClick = (evt)=>{
         if(this.props.updateParent && !this.props.disabled){
-            this.props.updateParent(this.props.value);
+            this.props.updateParent(this.props.value, true, false);
             if(this.props.onClick){
                 this.props.onClick(evt);
             }

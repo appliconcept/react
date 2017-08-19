@@ -100,6 +100,7 @@ $base: #{".apc"}#{$element};
     }
 
     /*Label*/ #{$base}Label#{$sizeName}{
+        font-size: $font-size;
         height: $font-size;
         padding-left: $padding-left;
     }
@@ -107,8 +108,18 @@ $base: #{".apc"}#{$element};
 
 //Colors
 @each $colorName, $color in $colors{
+    //Variables
+    $colorUsed: $color;
+    @if($colorName == Default){
+        $colorUsed: lighten(map-get($colors, TextColor), $primaryTextOpacity * 1.5);
+    }
+
     /*Dot*/ #{$base}Dot#{$colorName}{
         color: apcTextColor($color);
         background-color: $color;
+    }
+
+    /*Label*/ #{$base}Label#{$colorName}{
+        color: $colorUsed;
     }
 }

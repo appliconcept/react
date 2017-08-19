@@ -5,7 +5,7 @@ import Checkbox from "./Checkbox";
 import Utils from "../tools/Utils";
 import "../styles/CheckboxGroup.scss";
 
-export default class RadioGroup extends Champ{
+export default class CheckboxGroup extends Champ{
     
     //State par default
     constructor(props){
@@ -13,7 +13,6 @@ export default class RadioGroup extends Champ{
         this.champType = "CheckboxGroup";
         this.childTypes = [Checkbox];
         this.isChampMultiple = true;
-        this.classes = ["", "Container", "Wrapper", "LabelWrapper", "Label", "Icon", "FillerFlex", "Clear", "ErrorBox" ];
     }
 
     //Afficher le composant
