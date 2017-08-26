@@ -1,0 +1,105 @@
+/**LINK**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Link;
+$base: #{".apc"}#{$element};
+
+//Default Styles
+    /*element*/ #{$base}{
+        @include defaultcss(flex);
+        @include centercontent;
+        cursor: pointer;
+        flex-direction: row
+    }
+
+    /*icon*/ #{$base}Icon{
+        @include centercontent;
+        padding-right: 5px;
+    }
+
+
+//Sizes
+@each $sizeName, $sizeMap in $sizes {
+    
+    //Variables
+    $height: map-get($sizeMap, height);
+    $font-size: map-get($sizeMap, font-size);
+    $padding-left: map-get($sizeMap, padding-left);
+    $padding-right: map-get($sizeMap, padding-right);
+    $padding-top: map-get($sizeMap, padding-top);
+    $padding-bottom: map-get($sizeMap, padding-bottom);
+
+    /*Element*/ #{$base}#{$sizeName}{
+        font-size: $font-size;
+        height: $height;
+        padding-top: $padding-top;
+        padding-bottom: $padding-bottom;
+        padding-left: $padding-left;
+        padding-right: $padding-right;
+    };
+
+    //icon
+    #{$base}Icon#{$sizeName}{
+        font-size: $font-size;
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+    
+    //Variables
+    $colorUsed: lighten( map-get($colors,TextColor), $primaryTextOpacity);
+
+    //element
+    #{$base}#{$colorName}{
+        color: $colorUsed;
+    }
+
+    //icon
+    #{$base}Icon#{$colorName}{
+        color: $colorUsed;
+    }
+}
+
+//Colors Active
+@each $colorName, $color in $colors{
+    
+    //Variables
+    $colorUsed: $color;
+    @if( $colorName == Default ){
+        $colorUsed: map-get($colors,Primary);  
+    }
+
+    //element
+    #{$base}#{$colorName}Active{
+        color: $colorUsed;
+    }
+
+    //icon
+    #{$base}Icon#{$colorName}Active{
+        color: $colorUsed;
+    }
+}
+
+//Colors hover
+@each $colorName, $color in $colors{
+    
+    //Variables
+    $colorUsed: $color;
+    @if( $colorName == Default ){
+        $colorUsed: map-get($colors,Primary);  
+    }
+
+    //element
+    #{$base}#{$colorName}Hover{
+        color: $colorUsed;
+    }
+
+    //icon
+    #{$base}Icon#{$colorName}Hover{
+        color: $colorUsed;
+    }
+}

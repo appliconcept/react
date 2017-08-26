@@ -4,6 +4,8 @@ import Icon from "./Icon";
 import Utils from "../tools/Utils";
 import Slide from "./Slide";
 
+import "../styles/Slider.scss"
+
 export default class Slider extends Component{
 
     index = 0;

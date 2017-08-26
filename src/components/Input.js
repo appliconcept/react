@@ -18,20 +18,16 @@ export default class Input extends Champ{
                 className={this.displayClass("Container")}
                     style={this.displayStyle("Container")}
             >
-                {
-                    this.props.icon &&
-                    <Icon name={this.props.icon} className={this.displayClass("Icon")} style={this.displayStyle("Icon")} />
-                }
+                
 
-                {
-                    this.props.label &&
-                    <div
-                        className={this.displayClass("Label")}
-                            style={this.displayStyle("Label")}
-                    >
-                        {this.props.label}
-                    </div>
-                }
+                <label
+                    className={this.displayClass("Label")}
+                    style={this.displayStyle("Label")}
+                    htmlFor={this.props.id}
+                >
+                    <Icon name={this.props.icon} className={this.displayClass("Icon")} style={this.displayStyle("Icon")} />
+                    {this.props.label}
+                </label>
 
                 <div
                     className={this.displayClass("Wrapper")}
@@ -40,7 +36,7 @@ export default class Input extends Champ{
                     <input
                         className={this.displayClass("")}
                             style={this.displayStyle("")}
-
+                        id={this.props.id}
                         disabled={(this.props.disabled | this.props.readonly) ? "disabled" : ""}
                         onBlur={this.handleBlur}
                         onClick={this.handleClick}

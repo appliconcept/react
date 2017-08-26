@@ -1,5 +1,5 @@
 import React from "react";
-import { Attrs, Colors, ColorsForced, Sizes } from "./Settings";
+import { Attrs, Colors, ColorsForced, Status, Sizes } from "./Settings";
 
 //Clone child elements and pass new props
 const recursiveReactClone = (children, callback)=>{
@@ -30,9 +30,11 @@ const applySizesClass = function(base, props){
 
 //Apply colors class to element
 const applyColorsClass = function(base, props){
-    let color = Colors.find( cl => props[cl.toLowerCase()] ? true : false );
+        
     //Base color
+    let color = Colors.find( cl => props[cl.toLowerCase()] ? true : false );
     color = (color === undefined) ? "Default" : color;
+    
     //Forced color for element
     ColorsForced.map((el)=>{
         let exp = new RegExp(el, "i");
@@ -41,22 +43,45 @@ const applyColorsClass = function(base, props){
                 if(props[el.toLowerCase()+cl.toLowerCase()]){
                     color = cl;
                 }
-            })
+            });
         }
     });
-    //Hollow or not
+
+    //Hollow,
     color = props["hollow"] ? color + "Hollow" : color;
+
     //Return final color
     return " " + base + color;
 }
 
+//Apply colors status class to element
+const applyColorsStatusClass = function(base, props, stat){
+    
+    //Base color
+    let color = Colors.find( cl => props[cl.toLowerCase()] ? true : false );
+    color = (color === undefined) ? "Default" : color;
+
+    //States color for element
+    Colors.map((cl)=>{
+        if(props[stat.toLowerCase()+cl.toLowerCase()]){
+            color = cl
+        }
+    });
+
+    //Hollow,
+    color = props["hollow"] ? color + "Hollow" : color;
+
+    //Return final color
+    return " " + base + color + stat;
+}
+
 //Apply all class to element (colors, sizes, block, error...)
-const applyClass = function(base, props, errorDisplay, useradd = false){
+const applyClass = function(base, props, status, useradd = false, errorDisplay = false, ){
     
     //Base class
     let finalClass = base;
     
-    //All class but colors and sizes
+    //Base Attributes
     Attrs.map((prop)=>{
         finalClass += applySingleClass(base, props, prop);
     })
@@ -66,6 +91,11 @@ const applyClass = function(base, props, errorDisplay, useradd = false){
     
     //Colors class
     finalClass += applyColorsClass(base, props);
+    Status.map((stat)=>{
+        if(status[stat.toLowerCase()] && status[stat.toLowerCase()] === true){
+            finalClass += applyColorsStatusClass(base, props, stat);
+        }
+    });
         
     //Errors
     finalClass += (errorDisplay) ? " " + base + "Error" : "";
@@ -77,22 +107,11 @@ const applyClass = function(base, props, errorDisplay, useradd = false){
     return finalClass;
 }
 
-//Styles
-const applyStyle = function(base, props, styles, errorDisplay=false, useradd = false){
-    let finalStyles = {};
-    if(useradd){
-        finalStyles = {
-            ...finalStyles,
-            ...applyUserStyle(base, props)
-        };
-    }
-    return finalStyles;
-}
-
 //Export tools
 const Utils = {
     applyClass: applyClass,
     applyColorsClass: applyColorsClass,
+    applyColorsStatusClass: applyColorsStatusClass,
     recursiveReactClone: recursiveReactClone
 }
 export default Utils;

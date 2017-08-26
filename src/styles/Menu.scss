@@ -1,0 +1,14 @@
+/**Menu**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Menu;
+$base: #{".apc"}#{$element};
+
+//Default Styles
+    /*element*/ #{$base}{
+        @include defaultcss(flex);
+        flex-direction: column;
+    }

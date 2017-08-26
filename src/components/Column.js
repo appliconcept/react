@@ -1,19 +1,67 @@
 import React, { Component } from "react";
-import "../styles/Column.scss";
+import {Grid, Sizes} from "../tools/Settings";
 
 export default class Column extends Component{
+
+    //Context params types declaration from parent App
+    static contextTypes = {        
+        apcIndex: React.PropTypes.number
+    };
+
+    //Default style
+    defaultStyle = {
+        boxSizing: "border-box",
+        display: "flex",
+        margin: "0 0 0 0",
+        padding: "0 0 0 0",
+        flexBasis: "100%"
+    }
+
+    //Default state
+    constructor(props){
+        super(props);
+        this.state = {};
+    }
+
+    //Update styles and classes when component is mounted
+    componentDidMount(){
+        this.setColumnStyles(this.props, this.context);
+    }
+
+    //Update styles and classes when component receives new props or next context
+    componentWillReceiveProps = (nextProps, nextContext)=>{
+        if(this.props !== nextProps | this.context !== nextContext){
+            this.setColumnStyles(nextProps, nextContext);
+        }
+    }
+
+    //Set column styles
+    setColumnStyles = (props, context)=>{
+        let size = Grid.size;
+        Sizes.map((s, i)=>{
+            if(this.props[s.toLowerCase()]){
+                if(context.apcIndex >= i){
+                    size = this.props[s.toLowerCase()];
+                }
+            }
+        });
+        let unit = size == Grid.size ? 100 : (100 - Grid.gutter) / Grid.size;
+        let flexBasis = unit * size;
+        this.setState({
+            flexBasis: flexBasis + "%"
+        });
+    }
+
+    //Render component
     render(){
-        let composedClass = "apcColumn";
-        composedClass += this.props.xsmall ? " apcColumnXsmall"+this.props.xsmall : "";
-        composedClass += this.props.small ? " apcColumnSmall"+this.props.small : "";
-        composedClass += this.props.medium ? " apcColumnMedium"+this.props.medium : "";
-        composedClass += this.props.large ? " apcColumnLarge"+this.props.large : "";
-        composedClass += this.props.xlarge ? " apcColumnXlarge"+this.props.xlarge : "";
-        composedClass += this.props.className ? " "+this.props.className : "";
         return(
             <div
-                className={composedClass}
-                style={this.props.style}
+                className={this.props.className ? this.props.className : ""}
+                style={{
+                    ...this.defaultStyle,
+                    ...this.props.style ? this.props.style : {},
+                    flexBasis: this.state.flexBasis
+                }}
             >
                 {this.props.children}
             </div>

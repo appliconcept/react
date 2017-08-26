@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.config.dev.js --content-base dist --inline --hot",
-    "build": "webpack --config ./webpack.config.js"
+    "build": "webpack --config ./webpack.config.js",
+    "build-dev": "webpack --config ./webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,14 @@
   },
   "homepage": "https://github.com/appliconcept/react#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "react": "^15.6.1"
+    "qs": "^6.5.0",
+    "react": "^15.6.1",
+    "react-router-dom": "^4.1.2",
+    "uniqueid": "^1.0.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

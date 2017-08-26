@@ -1,0 +1,15 @@
+/**Navigation**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Navigation;
+$base: #{".apc"}#{$element};
+
+//Default Styles
+    /*element*/ #{$base}{
+        @include defaultcss(flex);
+        flex-basis: content;
+        flex-direction: row;
+    }

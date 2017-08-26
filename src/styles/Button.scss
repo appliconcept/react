@@ -5,159 +5,166 @@
 
 //Base element
 $element: Button;
+$base: #{".apc"}#{$element};
 
-//Styles par defaut
-    //element
-    .apc#{$element}{
-        border-style: solid;
-        border-width: 1px;
-        box-sizing: border-box;
+//Default Styles
+    /*element*/ #{$base}{
+        @include defaultcss(inline-block);
+        @include border;
         cursor: pointer;
-        display: inline-block;
-        margin: 0 0 0 0;
-        max-width: 100%;
-        outline: none;
-        transition-duration: 0.3s;
+        transition-duration: 300ms;
+        transition-property: all;
+    }
+    /*icon*/ #{$base}{
+        transition-duration: 300ms;
         transition-property: all;
     }
 
 //Block
-    //element
-    .apc#{$element}Block{
+    /*element*/ #{$base}Block{
         display: block;
         width: 100%;
     }
 
-//Disabled
-    //element
-    .apc#{$element}Disabled{
-        cursor: not-allowed;
-        opacity: $disabledOpacity;
-    }
-
 //Rounded
-    //element
-    .apc#{$element}Rounded{
-        border-radius: $borderRadius;
+    /*element*/ #{$base}Rounded{
+        @include rounded;
     }
 
 //RoundedMax
-    //element
-    .apc#{$element}RoundedMax{
-        border-radius: $borderRadiusMax;
+    /*element*/ #{$base}RoundedMax{
+        @include roundedmax;
+    }
+
+//NoUserInput
+    /*element*/ #{$base}NoUserInput{
+        @include nouserinput;
+    }
+
+//Disabled
+    /*element*/ #{$base}Disabled{
+        @include disabled;
     }
 
 //Sizes
 @each $sizeName, $sizeMap in $sizes {
 
-    //element
-    .apc#{$element}#{$sizeName}{
-        font-size: map-get($sizeMap, font-size);
-        height: map-get($sizeMap, height);
-        padding-top: map-get($sizeMap, padding-top);
-        padding-bottom:  map-get($sizeMap, padding-bottom);
-        padding-left: map-get($sizeMap, padding-left);
-        padding-right: map-get($sizeMap, padding-right);
+    //Variables
+    $height: map-get($sizeMap, height);
+    $heightnoborder: $height - 2 * $champBorderWidth;
+    $width: map-get($sizeMap, width);
+    $widthnoborder: $width - 2 * $champBorderWidth;
+    $font-size: map-get($sizeMap, font-size);
+    $padding-left: map-get($sizeMap, padding-left);
+    $padding-right: map-get($sizeMap, padding-right);
+    $padding-top: map-get($sizeMap, padding-top);
+    $padding-bottom: map-get($sizeMap, padding-bottom);
+
+    /*Element*/ #{$base}#{$sizeName}{
+        font-size: $font-size;
+        height: $height;
+        padding-top: $padding-top;
+        padding-bottom: $padding-bottom;
+        padding-left: $padding-left;
+        padding-right: $padding-right;
     };
 
     //icon
-    .apc#{$element}Icon#{$sizeName}{
-        font-size: map-get($sizeMap, font-size);
+    #{$base}Icon#{$sizeName}{
+        font-size: $font-size;
     };
 }
 
 //Colors
 @each $colorName, $color in $colors{
     
-    //Button default
+    //Variables
+    $background-color: $color;
+    $background-color-hover: darken($color, 8%);
+    $border-color: darken($color, 5%);
+    $border-color-hover: $border-color;
+    $colorUsed: apcTextColor($color);
+    $colorUsed-hover: apcTextColor(darken($color, 5%));
     @if( $colorName == Default ){
+        $background-color: map-get($colors,White);
+        $background-color-hover: darken(map-get($colors,White), 8%);
+        $colorUsed: lighten( map-get($colors,TextColor), $primaryTextOpacity);
+        $colorUsed-hover: $colorUsed;  
+    }
 
-        //element
-        .apc#{$element}#{$colorName}{
-            background-color: map-get($colors,White);
-            border-color: $color;
-            color: lighten( map-get($colors,TextColor), $primaryTextOpacity);
-            &:hover{
-                background-color: darken(map-get($colors,White), 10%);
-                border-color: darken($color, 15%);
-            }
+    //element
+    #{$base}#{$colorName}{
+        background-color: $background-color;
+        border-color: $border-color;
+        color: $colorUsed;
+        &:hover{
+            background-color: $background-color-hover;
+            border-color: $border-color-hover;
+            color: $colorUsed-hover;
         }
+    }
 
-        //icon
-        .apc#{$element}Icon#{$colorName}{
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
+    //icon
+    #{$base}Icon#{$colorName}{
+        color: $colorUsed;
+    }
+    #{$base}#{$colorName}{
+        &:hover #{$base}Icon#{$colorName}{
+            color: $colorUsed-hover;
         }
-
-    } @else{
-
-        //element
-        .apc#{$element}#{$colorName}{
-            background-color: $color;
-            border-color: darken($color, 5%);
-            color: apcTextColor($color);
-            &:hover{
-                background-color: darken($color, 10%);
-                border-color: darken($color, 15%);
-                color: apcTextColor(darken($color, 10%));
-            }
-        }
-
-        //icon
-        .apc#{$element}Icon#{$colorName}{
-            color: apcTextColor($color);
-        }
-        .apc#{$element}#{$colorName}{
-            &:hover .apc#{$element}Icon#{$colorName}{
-                color: apcTextColor(darken($color, 10%));
-            }
-        }
-
     }
 }
 
 //Colors Hollow
 @each $colorName, $color in $colors{
-    
-    //Button default
+
+    //Variables
+    $background-color: map-get($colors,White);
+    $background-color-hover: $color;
+    $border-color: $color;
+    $border-color-hover: darken($color, 8%);
+    $colorUsed: $color;
+    $colorUsed-hover: apcTextColor($color);
     @if( $colorName == Default ){
+        $background-color-hover: darken(map-get($colors,White), 8%);
+        $colorUsed: lighten( map-get($colors,TextColor), $primaryTextOpacity);
+        $colorUsed-hover: $color;  
+    }
 
-        //element
-        .apc#{$element}#{$colorName}Hollow{
-            background-color: map-get($colors,White);
-            border-color: $color;
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-            &:hover{
-                background-color: darken(map-get($colors,White), 10%);
-                border-color: darken($color, 15%);
-            }
+    //element
+    #{$base}#{$colorName}Hollow{
+        background-color: $background-color;
+        border-color: $border-color;
+        color: $colorUsed;
+        &:hover{
+            background-color: $background-color-hover;
+            border-color: $border-color-hover;
+            color: $colorUsed-hover;
         }
+    }
 
-        //icon
-        .apc#{$element}Icon#{$colorName}Hollow{
-            color: lighten(map-get($colors,TextColor), $primaryTextOpacity);
-        }
-
-    } @else{
-
-        //element
-        .apc#{$element}#{$colorName}Hollow{
-            background-color: map-get($colors,White);
-            border-color: $color;
-            color: $color;
-            &:hover{
-                background-color: $color;
-                color: apcTextColor($color);
-            }
-        }
-
-        //icon
-        .apc#{$element}Icon#{$colorName}Hollow{
-            color: $color;
-        } 
-        .apc#{$element}#{$colorName}Hollow{
-            &:hover .apc#{$element}Icon#{$colorName}Hollow{
-                color: apcTextColor($color);
-            }
+    //icon
+    #{$base}Icon#{$colorName}Hollow{
+        color: $colorUsed;
+    }
+    #{$base}#{$colorName}Hollow{
+        &:hover #{$base}Icon#{$colorName}Hollow{
+            color: $colorUsed-hover;
         }
     }
 }
+
+//Noborder
+    /*Container*/ #{$base}NoBorder{
+        @include noborder;
+    }
+
+//Nobg
+    /*Container*/ #{$base}NoBg{
+        @include nobg;
+    }
+
+//Link
+    /*Container*/ #{$base}Link{
+        @include link;
+    }

@@ -1,137 +1,157 @@
 import React , { Component } from "react";
 import ReactDOM from 'react-dom';
-import moment from "moment";
-import { Slide, Slider, Calendar, Textarea, Datepicker, Button, Container, Row, Column, Input, Submit, Form, RadioGroup, Radio, CheckboxGroup, Checkbox, Select, Option } from "./index";
-import "./app.scss";
+import { Home, Produits, Contacts } from "./components";
+import { App, Container, Input, Row, Icon, Column, Router, Route, Menu, Logo, Navigation, Link, Slider, Slide } from "./index";
+import { User, Product } from "./tools/Database";
 
-class App extends Component{
+const styles = {
+    containerFluid: {
+        backgroundColor: "#efefefef",
+        paddingTop: "20px",
+        paddingBottom: "20px"
+    },
+    container: {
+        backgroundColor: "transparent"
+    },
+    row: {
+        backgroundColor: "#ff00ff",
+        marginBottom: "20px",
+        height: "100px"
+    },
+    column: {
+        backgroundColor: "#00ffff",
+        alignContent: "center"
+    },
+    blue: {
+        backgroundColor: "#0000ff" 
+    },
+    red: {
+        backgroundColor: "#ff0000"
+    },
+    green: {
+        backgroundColor: "#00ff00"
+    }
+};
+
+class Root extends Component{
 
     constructor(props){
         super(props);
         this.state = {
-            nom: "Natio",
-            slidermode: "slide",
-            sliderdirection: "left",
-            slidercontrols: true,
-            valeurs: []
+            mail: "natio.jerome@gmail.com",
+            pass: "123456",
+            produit: {
+                nom: "Banane rapée",
+                desc: "Mange pas ça lé pas bon",
+                prixHT: 20,
+                prixTTC: 20*1.085,
+                tva: 8.5
+            },
+            products:[]
         }
     }
 
-    handleChange = (value)=>{
-        this.setState({nom : value});
-    }
-
-    handleSliderMode = (value)=>{
-        this.setState({slidermode: value}, ()=>{
-            //console.log(this.state);
+    componentDidMount = ()=>{
+        Product.search().then((data)=>{
+            console.log(data);
+            this.setState({products: data.response});
         });
     }
 
-    handleSliderControls = (value)=>{
-        this.setState({slidercontrols: value}, ()=>{
-            //console.log(this.state);
+    register = ()=>{
+        User.create({
+            mail:{
+                value : this.state.mail,
+                unique : "true" 
+            }
+        }).then((data)=>{
+            console.log(data);
+        })
+    }
+
+    createProduct = ()=>{
+        Product.create(this.state.produit).then((data)=>{
+            console.log(data);
+            
+        })
+    }
+
+    login = ()=>{
+        User.login({mail:"natio.jerome@gmail.com", password: "CTpTbM72"}).then((data)=>{
+            console.log(data)
         });
     }
 
-    handleSliderDirection = (value)=>{
-        this.setState({sliderdirection: value}, ()=>{
-            //console.log(this.state);
-        });
-    }
-
-    handleValeurs = (value)=>{
-        this.setState({valeurs: value});        
-    }
-
-    submit = (isvalid, values)=>{
-        console.log(isvalid, values);
+    logout = ()=>{
+        User.logout();
     }
 
     render(){
-        return(
-            <Container fluid style={styles.containerFluid}>
-                <Container>
-                    
-                        <Row>                        
-                            <Column medium="6">
-                                <Row>
-                                    <Column medium="6">
-                                        <Slider animation={this.state.slidermode} controls={this.state.slidercontrols} style={styles.slider} animationduration="500" animationdelay="3000" direction={this.state.sliderdirection}>
-                                            <Slide style={{...styles.slide, ...{backgroundColor: "blue"}}}></Slide>
-                                            <Slide style={{...styles.slide, ...{backgroundColor: "green"}}}></Slide>
-                                            <Slide style={{...styles.slide, ...{backgroundColor: "red"}}}></Slide>
-                                            <Slide style={{...styles.slide, ...{backgroundColor: "orange"}}}></Slide>
-                                            <Slide style={{...styles.slide, ...{backgroundColor: "yellow"}}}></Slide>
-                                        </Slider>
-                                    </Column>
-                                    <Column medium="6">
-                                        <RadioGroup clear icon="cog" label="Slider mode" name="slidermode" value={this.state.slidermode} onChange={this.handleSliderMode} rounded required iconprimary style={styles.mb}>
-                                            <Row>
-                                                <Column medium="6">
-                                                    <Radio value="slide" label="slide"/>
-                                                </Column>
-                                                <Column medium="6">
-                                                    <Radio value="fade" label="fade"/>
-                                                </Column>
-                                            </Row>
-                                        </RadioGroup>
-                                        <RadioGroup clear icon="cog" label="Slider direction" name="sliderdirection" value={this.state.sliderdirection} onChange={this.handleSliderDirection} rounded required iconprimary style={styles.mb}>
-                                            <Row>
-                                                <Column medium="6">
-                                                    <Radio value="top" label="top"/>
-                                                    <Radio value="right" label="right"/>
-                                                </Column>
-                                                <Column medium="6">
-                                                    <Radio value="bottom" label="bottom"/>
-                                                    <Radio value="left" label="left"/>
-                                                </Column>
-                                            </Row>
-                                        </RadioGroup>
-                                        <RadioGroup clear icon="cog" label="Slider controls" name="slidercontrols" value={this.state.slidercontrols} onChange={this.handleSliderControls} rounded required iconprimary style={styles.mb}>
-                                            <Row>
-                                                <Column medium="6">
-                                                    <Radio value="true" label="afficher"/>
-                                                </Column>
-                                                <Column medium="6">
-                                                    <Radio value="false" label="masquer"/>
-                                                </Column>
-                                            </Row>
-                                        </RadioGroup>
-                                    </Column>
-                                </Row>
-                                <Input clear type="text" name="nom" value={this.state.slidermode} onChange={this.handleSliderMode} label="Nom" icon="user" rounded required iconprimary  style={styles.mb}/>  
-                               
-                                <CheckboxGroup clear icon="tags" label="Valeurs" name="valeurs" value={this.state.valeurs} onChange={this.handleValeurs} rounded required iconprimary minlength="2" maxlength="3" style={styles.mb}>
-                                    <Checkbox value="1" label="value 1"/>
-                                    <Checkbox value="2" label="value 2"/>
-                                    <Checkbox value="3" label="value 3"/>
-                                    <Checkbox value="4" label="value 4"/>
-                                </CheckboxGroup>
-                                <Submit clear icon="check" primary rounded block style={styles.mb}>Valider</Submit>
-                            </Column>
-                        </Row>
-                    
-                </Container>
-            </Container>
+        return(                       
+            <Router>
+                <App>
+                    <Container fluid style={{ backgroundColor: "#efefef" }}>
+                        <Container style={{
+                            height: "50px",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center"
+                        }}><Icon name="user" primary/> mon compte <Icon name="shopping-cart" primary/> mon panier</Container>
+                    </Container>
+                    <Container fluid style={{...styles.containerFluid}}>
+                        <Container style={styles.container}>
+                            <Menu mobile="small" primary>
+                                <Logo src="https://www.supercasino.fr/wp-content/themes/super/assets/img/logo.svg"/>
+                                <Navigation style={{paddingLeft:"100px"}}>
+                                    <Link to="/" label="Accueil" icon="home" large/>
+                                    <Link to="/produits" icon="tags" label="Produits" large/>
+                                    <Link to="/contacts" icon="envelope" label="Contacts" large/>
+                                </Navigation>
+                            </Menu>
+                        </Container>
+                    </Container>
+                    <Container>
+                        <Slider controls animation="fade" animationduration="500" animationdelay="5000" style={{width: "100%", height: "300px"}}>
+                            <Slide style={{width: "100%", height: "100%"}}><img style={{width: "100%"}} src="http://lorempixel.com/800/300/sports/2/"/></Slide>
+                            <Slide style={{width: "100%", height: "100%"}}><img style={{width: "100%"}} src="http://lorempixel.com/800/300/sports/3/"/></Slide>
+                            <Slide style={{width: "100%", height: "100%"}}><img style={{width: "100%"}} src="http://lorempixel.com/800/300/sports/5/"/></Slide>
+                            <Slide style={{width: "100%", height: "100%"}}><img style={{width: "100%"}} src="http://lorempixel.com/800/300/sports/1/"/></Slide>
+                        </Slider>
+                    </Container>
+                    <Container fluid style={styles.containerFluid}>
+                        <Container style={styles.container}>
+                            <Route path="/" exact component={Home}/>
+                            <Route path="/produits" component={Produits}/>
+                            <Route path="/contacts" component={Contacts}/>
+                            <Input type="text" name="nom" icon="user" label="Nom" iconprimary rounded/>
+                            <input type="text" value={this.state.mail} onChange={(event)=>{this.setState({mail: event.target.value})}} />
+                            <br/>
+                            <button onClick={this.register}>s'inscrire</button>
+                            <br/><br/><br/>
+                            <button onClick={this.login}>connexion</button>
+                            <br/><br/><br/>
+                            <button onClick={this.createProduct}>creer produit</button>
+                            <br/><br/><br/>
+                            <button onClick={this.logout}>deconnexion</button>
+                            {
+                                this.state.products.map((product,i)=>{
+                                    return(
+                                        <div key={i}>
+                                        Nom : {product.metas.nom}<br/>
+                                        Prix HT : {product.metas.prixHT}<br/>
+                                        Prix TTC : {product.metas.prixTTX}<br/>
+                                        Tva : {product.metas.tva}<br/>
+                                        desc : {product.metas.desc}<br/>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </Container>
+                    </Container>
+
+                </App>
+            </Router>
         );
     }
 }
-
-const styles = {
-    containerFluid: {
-        boxSizing: "border-box",
-        backgroundColor: "#efefef",
-        padding: "30px 0",
-        minHeight: "500px",
-        padding: "20px"
-    },
-    mb: {
-        marginBottom: "15px"
-    },
-    slider: {
-        height: "250px",
-        marginBottom: "15px"
-    }
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));

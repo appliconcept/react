@@ -25,6 +25,7 @@ export default class Icon extends Component{
             <span
                 className={this.props.className ? this.props.className : ""}
                 style={finalStyle}
+                onClick={this.props.onClick ? this.props.onClick : ()=>{}}
             >
             {Icons[this.props.name] ? String.fromCharCode(Icons[this.props.name]) : String.fromCharCode(Icons['info-circle'])}
             </span>

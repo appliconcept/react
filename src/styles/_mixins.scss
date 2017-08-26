@@ -1,6 +1,6 @@
 //Determiner la couleur de texte pour les elements avec background
 @function apcTextColor($color) {
-    @if (lightness($color) > 70) {
+    @if (lightness($color) > 75) {
         @return #000000;
     } @else {
         @return #ffffff;
@@ -17,9 +17,9 @@
 }
 
 //DefaultCss
-@mixin defaultcss{
+@mixin defaultcss($display: block){
     box-sizing: border-box;
-    display: block;
+    display: $display;
     margin: 0 0 0 0;
     outline: none;
     padding: 0 0 0 0;
@@ -36,6 +36,7 @@
 //Center content (Horizontal and Vertical)
 @mixin centercontent{
     align-content: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;

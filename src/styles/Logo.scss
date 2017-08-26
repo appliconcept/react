@@ -1,0 +1,14 @@
+/**Logo**/
+
+//Variables, fonts, mixins
+@import "./import.scss";
+
+//Base element
+$element: Logo;
+$base: #{".apc"}#{$element};
+
+//Default Styles
+    /*element*/ #{$base}{
+        @include defaultcss(flex);
+        flex-basis: content;
+    }
