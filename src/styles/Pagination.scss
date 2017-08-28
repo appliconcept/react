@@ -1,0 +1,108 @@
+@import "./import.scss";
+
+//Base element
+$element: Pagination;
+
+//Styles par defaut
+    //element
+    .apc#{$element}{
+        border-style: solid;
+        border-width: 1px;
+        border-right: none;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 0;
+        max-width: 100%;
+
+        transition-duration: 0.3s;
+        transition-property: all;
+
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .apcPaginationPrev{
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+
+    .apcPaginationNext{
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-right: 1px solid;
+    }
+
+//Sizes
+@each $sizeName, $sizeMap in $sizes {
+
+    //element
+    .apc#{$element}#{$sizeName}{
+        font-size: map-get($sizeMap, font-size);
+        height: map-get($sizeMap, height);
+        padding-top: map-get($sizeMap, padding-top);
+        padding-bottom:  map-get($sizeMap, padding-bottom);
+        padding-left: map-get($sizeMap, padding-left);
+        padding-right: map-get($sizeMap, padding-right);
+    };
+}
+
+//Colors
+@each $colorName, $color in $colors{
+    
+    //default
+    @if( $colorName == Default ){
+
+        //element
+        .apc#{$element}#{$colorName}{
+            background-color: map-get($colors,White);
+            border-color: $color;
+            color: lighten( map-get($colors,TextColor), $primaryTextOpacity);
+            &:hover{
+                background-color: darken(map-get($colors,White), 10%);
+                border-color: darken($color, 15%);
+            }
+        }
+
+    } @else{
+
+        //element
+        .apc#{$element}#{$colorName}{
+            background-color: $color;
+            border-color: darken($color, 5%);
+            color: apcTextColor($color);
+            &:hover{
+                background-color: darken($color, 10%);
+                border-color: darken($color, 15%);
+                color: apcTextColor(darken($color, 10%));
+            }
+        }
+    }
+}
+
+//Colors active
+@each $colorName, $color in $colors{
+    
+    //default
+    @if( $colorName == Default ){
+
+        //element
+        .apc#{$element}Active#{$colorName}{
+            background-color: darken(map-get($colors,White), 10%);
+            border-color: darken($color, 15%);
+            color: lighten( map-get($colors,TextColor), $primaryTextOpacity);
+        }
+
+    } @else{
+
+        //element
+        .apc#{$element}Active#{$colorName}{
+            background-color: darken($color, 10%);
+            border-color: darken($color, 15%);
+            color: apcTextColor(darken($color, 10%));
+        }
+    }
+}

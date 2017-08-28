@@ -1,5 +1,7 @@
 import App from "./components/App";
 import Button from "./components/Button";
+import Card from "./components/Card";
+import Cart from "./components/Cart";
 import Checkbox from "./components/Checkbox";
 import CheckboxGroup from "./components/CheckboxGroup";
 import Column from "./components/Column.js";
@@ -12,6 +14,7 @@ import Logo from "./components/Logo";
 import Menu from "./components/Menu";
 import Navigation from "./components/Navigation";
 import Option from "./components/Option";
+import Pagination from "./components/Pagination";
 import Radio from "./components/Radio";
 import RadioGroup from "./components/RadioGroup";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -25,6 +28,8 @@ import Textarea from "./components/Textarea";
 export {
     App,
     Button,
+    Card,
+    Cart,
     Checkbox,
     CheckboxGroup,
     Column,
@@ -37,6 +42,7 @@ export {
     Menu,
     Navigation,
     Option,
+    Pagination,
     Radio,
     RadioGroup,
     Route,

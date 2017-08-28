@@ -1,0 +1,102 @@
+h1{
+    margin: 0;
+    padding: 0;
+}
+.apcProduitsListe{
+    padding-top: 30px;
+}
+
+.apcProduit{
+    display: block;
+    background: #ffffff;
+    cursor: pointer;
+    width: 100%;
+    margin: 20px 0 0 0;
+    border-radius: 3px;
+    transition: all 0.5s;
+}
+
+.apcProduitNom{
+    font-weight: bold;
+    font-size: 13px;
+    color: #353535;
+    text-align: center;
+    padding: 3px;
+    margin-bottom: 5px;
+    height: 40px;
+    overflow: hidden;
+    background-color: #55b640;
+    color: #ffffff;
+    transition: all 0.5s;
+}
+
+.apcProduit:hover{
+    transform: scale(1.05);
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 0px 15px 0px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 0px 15px 0px rgba(50, 50, 50, 0.5);  
+}
+.apcProduit:hover .apcProduitNom{
+    background-color: #00674b;
+}
+
+.apcProduitImg{
+    text-align: center;
+}
+
+.apcProduitImg img{
+    height: 150px;
+}
+
+.apcProduitPrix{
+    font-weight: bold;
+    margin: 10px 15px;
+    font-size: 15px;
+    //background-color: #8B8989;
+    //background-color: #00674b;
+    color: #333333;
+    text-align: center;
+    transition: all 0.5s;
+    padding-top: 12px;
+}
+
+
+.apcFiltresCategsH2{
+    margin: 0;
+    padding: 0;
+    min-height: 40px;
+    background: #eaeaea;
+    padding: 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    color: #2e6222;
+}
+
+.apcCategory{
+    padding: 5px 10px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+}
+
+.apcCategory:hover{
+    color: white;
+    background: #555555;
+}
+
+.apcProduitPanier{
+    font-weight: normal;
+    color: #00674b;
+    transition: all 0.5s;
+    margin: 10px 15px;
+}
+
+.apcProduitPanierIcon{
+    font-size: 30px;
+}
+
+.apcProduit:hover .apcProduitPanierIcon{
+    color: #55b640;
+}

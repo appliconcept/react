@@ -60,6 +60,9 @@ export default class Column extends Component{
                 style={{
                     ...this.defaultStyle,
                     ...this.props.style ? this.props.style : {},
+                    ...this.props.right ? {justifyContent: "flex-end"} : {},
+                    ...this.props.left ? {justifyContent: "flex-start"} : {},
+                    ...this.props.center ? {justifyContent: "center"} : {},
                     flexBasis: this.state.flexBasis
                 }}
             >
